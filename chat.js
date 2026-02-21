@@ -1,6 +1,7 @@
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const send = document.getElementById("send");
+const messages = document.getElementById("messages");
 
 send.addEventListener("click", sendMessage);
 
