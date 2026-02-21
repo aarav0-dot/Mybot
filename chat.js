@@ -12,11 +12,30 @@ showTyping();
 
 const reply = await getAIReply(text);
 
-removeTyping();
-createMessage(reply,"bot");
-speak(reply);
+function removeTyping(){
+const typing = document.getElementById("typing");
+if(typing){
+typing.remove();
+}
+}
 
 const reply = getBotReply(text);
+function showTyping(){
+const div = document.createElement("div");
+div.classList.add("message","bot");
+div.id = "typing";
+
+div.innerHTML = `
+<div class="typing">
+<span></span>
+<span></span>
+<span></span>
+</div>
+`;
+
+messages.appendChild(div);
+messages.scrollTop = messages.scrollHeight;
+}
 
 function createMessage(text,sender){
   const div = document.createElement("div");
