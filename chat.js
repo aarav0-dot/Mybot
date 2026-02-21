@@ -115,8 +115,11 @@ if(msg.includes("roast me!"))
 setTimeout(()=>{
 
 removeTyping();
-
+  
 const reply = getBotReply(text);
+  
+const reply = getBotReply(text);
+  
 createMessage(reply,"bot");
 speak(reply);
 
@@ -166,6 +169,15 @@ if (msg.includes("funny"))
 }
 // typing
 function showTyping(){
+  showTyping();
+
+const reply = await getAIReply(text);
+
+removeTyping();
+createMessage(reply,"bot");
+speak(reply);
+  async function sendMessage(){
+    
 
 const div = document.createElement("div");
 div.classList.add("message","bot");
