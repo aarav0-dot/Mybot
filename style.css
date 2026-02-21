@@ -36,6 +36,14 @@ button{
 button:hover{
     transform:scale(1.05);
 }
+ 
+.typing span {
+  width: 10px;
+  height: 10px;
+  background: #00c853;  /* Match bot message color */
+  border-radius: 50%;
+  animation: bounce 0.6s infinite;
+}
 
 /* Input focus animation */
 input:focus{
