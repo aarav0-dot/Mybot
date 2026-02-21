@@ -7,6 +7,15 @@ send.addEventListener("click", sendMessage);
 input.addEventListener("keydown",(e)=>{
   if(e.key==="Enter") sendMessage();
 });
+showTyping();
+
+const reply = await getAIReply(text);
+
+removeTyping();
+createMessage(reply,"bot");
+speak(reply);
+
+const reply = getBotReply(text);
 
 function createMessage(text,sender){
   const div = document.createElement("div");
