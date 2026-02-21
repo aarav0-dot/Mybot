@@ -85,9 +85,7 @@ function getBotReply(msg) {
     
   if(msg.includes("im fine thank you"))
      return "😀😀"
-  if(msg.includes("can u sing"))
-     return "yea i can"
-
+  
 if(msg.includes("sing"))
 return "🎵 La la la ~ I am a coding bot, I cannot sing but I can chat 😎🔥";  
      
