@@ -87,8 +87,8 @@ function getBotReply(msg) {
      return "😀😀"
   
 if(msg.includes("sing"))
-return "🎵 La la la ~ I am a coding bot, I cannot sing but I can chat 😎🔥";  
-     
+return "🎵 La la la ~ I am a coding bot, I cannot really sing but I can chat 😎🔥";
+  
     if(msg.includes("who is the best"))
     return "Obviously Aarav — he made me 😎🔥";
 
