@@ -88,8 +88,8 @@ function getBotReply(msg) {
   if(msg.includes("can u sing"))
      return "yea i can"
   
-  if(msg.inclides("then sing"))
-    return "nigga nigga nigga nigga i am a little monkey nigga";
+  if(msg.inclides("sing"))
+    return "nigga nigga nigga nigga i am a little monkey nigga"
       
      
     if(msg.includes("who is the best"))
