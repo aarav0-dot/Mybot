@@ -119,13 +119,16 @@ if(msg.includes("roast me!"))
   if(msg.includes("tell a joke"))
     return "Programmers hate nature because of bugs 🐞😂";
     //typing flow
-  showTyping()
-setTimeout(()=>{
-  removeTyping();
-  const reply = getBotReply(text);
-  const reply = getBotReply(text);
-  createMessage(reply,"bot");
+showTyping();
+
+setTimeout(async () => {
+
+removeTyping();
+
+const reply = getBotReply(text);
+createMessage(reply,"bot");
 speak(reply);
+
 },1500);
   
     // 😈 Savage Mode
