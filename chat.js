@@ -87,6 +87,7 @@ function getBotReply(msg) {
      return "😀😀"
   if(msg.includes("can u sing"))
      return "yea i can"
+  
   if(msg.inclides("then sing"))
     return "prrr prrr patapim prrr prrr patapim tralalelolalala prrr prrr patapim prrr prrr patapin tralalelotralala"
       
@@ -189,6 +190,7 @@ if (msg.includes("funny"))
   
  if (msg.includes("are you dumb"))
     return "Only when Aarav writes bugs in my code 💀";
+  
   if(msg.includes("bye"))
    return "Bye bro 😎";
   
