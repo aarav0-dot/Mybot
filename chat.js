@@ -64,9 +64,6 @@ function getBotReply(msg){
     // 👑 BOSS LEVEL ULTRA AI
  if(msg.includes("boss")) 
     return "Boss mode activated 😎👑";
-    
-    if(msg.includes("can you tell me who is the boss"))
-    return "Aarav is the boss because he created me 😈🔥"; 
   
       else if(msg.includes("who is the boss")) botReply="Aarav is the boss because he created me";
     
