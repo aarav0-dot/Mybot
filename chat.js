@@ -1,69 +1,79 @@
+// ===== ELEMENTS =====
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const send = document.getElementById("send");
-const messages = document.getElementById("messages");
 
+// ===== EVENTS =====
 send.addEventListener("click", sendMessage);
 
-input.addEventListener("keydown",(e)=>{
-  if(e.key==="Enter") sendMessage();
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendMessage();
 });
-showTyping();
 
-const reply = await getAIReply(text);
+// ===== SEND MESSAGE =====
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
 
-function removeTyping(){
-const typing = document.getElementById("typing");
-if(typing){
-typing.remove();
-}
-}
+  createMessage(text, "user");
+  input.value = "";
 
-const reply = getBotReply(text);
-function showTyping(){
-const div = document.createElement("div");
-div.classList.add("message","bot");
-div.id = "typing";
+  showTyping();
 
-div.innerHTML = `
-<div class="typing">
-<span></span>
-<span></span>
-<span></span>
-</div>
-`;
-
-messages.appendChild(div);
-messages.scrollTop = messages.scrollHeight;
+  setTimeout(() => {
+    removeTyping();
+    const reply = getBotReply(text);
+    createMessage(reply, "bot");
+  }, 1200);
 }
 
-function createMessage(text,sender){
+// ===== CREATE MESSAGE =====
+function createMessage(text, sender) {
   const div = document.createElement("div");
-  div.classList.add("message",sender);
+  div.classList.add("message", sender);
   div.innerText = text;
 
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 }
 
-function getBotReply(msg){
+// ===== TYPING ANIMATION =====
+function showTyping() {
+  const div = document.createElement("div");
+  div.classList.add("message", "bot");
+  div.id = "typing";
 
+  div.innerHTML = `
+    <div class="typing">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  `;
+
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTyping() {
+  const typing = document.getElementById("typing");
+  if (typing) typing.remove();
+}
+
+// ===== BOT BRAIN =====
+function getBotReply(msg) {
   msg = msg.toLowerCase();
 
-  // 🔢 Math Solver
-  try{
-    if(/^[0-9+\-*/().%\s]+$/.test(msg)){
-      return "Answer = " + Function("return ("+msg+")")();
+  // Math Solver
+  try {
+    if (/^[0-9+\-*/().%\s]+$/.test(msg)) {
+      return "Answer = " + Function("return (" + msg + ")")();
     }
-  }catch{}
+  } catch {}
 
-  if(msg.includes("hi")||msg.includes("hello"))
-    return "Hello,how can i help ya😎🔥";
-    
-    if (msg.includes("tell me the time time"))
-    return "🕒 " + new Date().toLocaleTimeString();
-     
-    if (msg.includes("yooo"))
+  if (msg.includes("hi") || msg.includes("hello"))
+    return "Hello 😎 How can I help you?";
+ if (msg.includes("yooo"))
     return "yooo,bro how are you 😊😊😊";
     
     if(msg.includes("your trash"))
@@ -138,19 +148,8 @@ if(msg.includes("roast me!"))
 
   if(msg.includes("tell a joke"))
     return "Programmers hate nature because of bugs 🐞😂";
-    //typing flow
-showTyping();
-
-setTimeout(async () => {
-
-removeTyping();
-
-const reply = getBotReply(text);
-createMessage(reply,"bot");
-speak(reply);
-
-},1500);
   
+
     // 😈 Savage Mode
   if (msg.includes("savage"))
     return "savage mode on  😈🔥";
@@ -185,59 +184,31 @@ if (msg.includes("funny"))
  if (msg.includes("are you dumb"))
     return "Only when Aarav writes bugs in my code 💀";
   if(msg.includes("bye"))
-    return "Bye bro 😎";
+   return "Bye bro 😎";
+  
     if (msg.includes("i am smart"))
     return "Proof? 🤨";
    
    if (msg.includes("bye") || msg.includes("gtg"))
     return "Bye bro 😎 Come back anytime 🔥";
    
+  if (msg.includes("time"))
+    return "🕒 " + new Date().toLocaleTimeString();
+
+  if (msg.includes("date"))
+    return "📅 " + new Date().toLocaleDateString();
+
+  if (msg.includes("joke"))
+    return "Why do programmers prefer dark mode? Because light attracts bugs 🐞😂";
+
+  if (msg.includes("who is the best"))
+    return "Obviously Aarav 😎🔥";
+
+  if (msg.includes("ai"))
+    return "AI means Artificial Intelligence — machines learning like humans 🧠";
+
+  if (msg.includes("bye"))
+    return "Bye bro 😎🔥";
+
   return "Tell me more 👀";
 }
-const reply = await getAIReply(text);
-
-removeTyping();
-createMessage(reply,"bot");
-speak(reply);
-  async function sendMessage(){
-    
-
-const div = document.createElement("div");
-div.classList.add("message","bot");
-div.id="typing";
-
-div.innerHTML=`
-<div class="typing">
-<span></span>
-<span></span>
-<span></span>
-</div>
-`;
-
-messages.appendChild(div);
-messages.scrollTop = messages.scrollHeight;
-
-}
-
-function removeTyping(){
-const typing = document.getElementById("typing");
-if(typing) typing.remove();
-}
-
-function sendMessage(){
-  const text = input.value.trim();
-  if(!text) return;
-
-  createMessage(text,"user");
-
-  input.value="";
-
-  showTyping();
-
-setTimeout(() => {
-
-removeTyping();
-
-createMessage("Hi 👋","bot");
-
-},1500);
