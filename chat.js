@@ -60,10 +60,6 @@ function getBotReply(msg){
     
     if (msg.includes("who is your owner"))
     return "Aarav Acharya is a cool teen who loves coding and building AI projects 🚀";
-    
-    // 👑 BOSS LEVEL ULTRA AI
- if(msg.includes("boss")) 
-    return "Boss mode activated 😎👑";
   
       else if(msg.includes("who is the bosss?")) botReply="Aarav is the boss because he created me";
     
