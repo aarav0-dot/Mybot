@@ -73,6 +73,7 @@ function getBotReply(msg) {
 
   if (msg.includes("hi") || msg.includes("hello"))
     return "Hello 😎 How can I help you?";
+  
  if (msg.includes("yooo"))
     return "yooo,bro how are you 😊😊😊";
     
@@ -84,8 +85,8 @@ function getBotReply(msg) {
     
   if(msg.includes("im fine thank you"))
      return "😀😀"
-  if(msg.includes("can u sing a song"))
-    return "yea"
+  if(msg.includes("can u sing"))
+     return "yea i can"
   if(msg.inclides("then sing"))
     return "prrr prrr patapim prrr prrr patapim tralalelolalala prrr prrr patapim prrr prrr patapin tralalelotralala"
       
