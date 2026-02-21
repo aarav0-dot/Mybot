@@ -110,20 +110,15 @@ if(msg.includes("roast me!"))
   if(msg.includes("tell a joke"))
     return "Programmers hate nature because of bugs 🐞😂";
     //typing flow
-  showTyping();
-
+  showTyping()
 setTimeout(()=>{
-
-removeTyping();
-  
-const reply = getBotReply(text);
-  
-const reply = getBotReply(text);
-  
-createMessage(reply,"bot");
+  removeTyping();
+  const reply = getBotReply(text);
+  const reply = getBotReply(text);
+  createMessage(reply,"bot");
 speak(reply);
-
 },1500);
+  
     // 😈 Savage Mode
   if (msg.includes("savage"))
     return "savage mode on  😈🔥";
@@ -167,10 +162,6 @@ if (msg.includes("funny"))
    
   return "Tell me more 👀";
 }
-// typing
-function showTyping(){
-  showTyping();
-
 const reply = await getAIReply(text);
 
 removeTyping();
