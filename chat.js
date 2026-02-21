@@ -201,7 +201,10 @@ if (msg.includes("funny"))
    
   if (msg.includes("time"))
     return "🕒 " + new Date().toLocaleTimeString();
-
+  
+if(msg.includes("sing"))
+return "🎵 La la la ~ I am a coding bot, I cannot sing but I can chat 😎🔥";
+  
   if (msg.includes("date"))
     return "📅 " + new Date().toLocaleDateString();
 
