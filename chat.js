@@ -164,5 +164,5 @@ function sendMessage(){
 
   setTimeout(()=>{
     createMessage(getBotReply(text),"bot");
-  },800);
+  },1200);
 }
