@@ -206,9 +206,6 @@ if (msg.includes("funny"))
 
   if (msg.includes("ai"))
     return "AI means Artificial Intelligence — machines learning like humans 🧠";
-
-  if (msg.includes("bye"))
-    return "Bye bro 😎🔥";
-
+  
   return "Tell me more 👀";
 }
