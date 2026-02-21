@@ -29,15 +29,15 @@ function getBotReply(msg){
   }catch{}
 
   if(msg.includes("hi")||msg.includes("hello"))
-    return "Hello Aarav 😎🔥";
+    return "Hello,how can i help ya😎🔥";
     
-    if (msg.includes("time"))
+    if (msg.includes("tell me the time time"))
     return "🕒 " + new Date().toLocaleTimeString();
      
     if (msg.includes("yooo"))
-    return "yooo bro how are you 😊😊😊";
+    return "yooo,bro how are you 😊😊😊";
     
-    if(msg.includes("trash"))
+    if(msg.includes("ur trash"))
     return "Relax bro, your code was worse yesterday 💀😂";
     
   if(msg.includes("how are you"))
@@ -49,7 +49,7 @@ function getBotReply(msg){
     if(msg.includes("who is the best"))
     return "Obviously Aarav — he made me 😎🔥";
 
-  if(msg.includes("your name"))
+  if(msg.includes("what is your name"))
     return "I am chatBot 🤖";
     
     if(msg.includes("wow"))
@@ -58,7 +58,7 @@ function getBotReply(msg){
     if(msg.includes("are you black"))
     return "bruh💀 im not black ur blackkk"
     
-    if (msg.includes("your owner"))
+    if (msg.includes("who is your owner"))
     return "Aarav Acharya is a cool teen who loves coding and building AI projects 🚀";
     
     // 👑 BOSS LEVEL ULTRA AI
@@ -71,7 +71,7 @@ function getBotReply(msg){
      if(msg.includes("help"))
     return "I got you 😎 Tell me math, homework, jokes, or chat";
     
-    if(msg.includes("smart"))
+    if(msg.includes("your smart"))
     return "I learn from Aarav's code 😎🧠";
      
     if(msg.includes("dream"))
