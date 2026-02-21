@@ -232,7 +232,12 @@ function sendMessage(){
 
   input.value="";
 
-  setTimeout(()=>{
-    createMessage(getBotReply(text),"bot");
-  },1200);
-}
+  showTyping();
+
+setTimeout(() => {
+
+removeTyping();
+
+createMessage("Hi 👋","bot");
+
+},1500);
