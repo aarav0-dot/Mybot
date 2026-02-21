@@ -65,8 +65,10 @@ function getBotReply(msg){
  if(msg.includes("boss")) 
     return "Boss mode activated 😎👑";
     
-    if(msg.includes("who is the boss !!"))
+    if(msg.includes("can you tell me who is the boss"))
     return "Aarav is the boss because he created me 😈🔥"; 
+  
+      else if(msg.includes("who is the boss")) botReply="Aarav is the boss because he created me";
     
      if(msg.includes("help me"))
     return "I got you 😎 Tell me math, homework, jokes, or chat";
