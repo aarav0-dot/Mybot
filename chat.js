@@ -84,7 +84,12 @@ function getBotReply(msg) {
     
   if(msg.includes("im fine thank you"))
      return "😀😀"
-  
+  if(msg.includes("can u sing a song"))
+    return "yea"
+  if(msg.inclides("then sing"))
+    return "prrr prrr patapim prrr prrr patapim tralalelolalala prrr prrr patapim prrr prrr patapin tralalelotralala"
+      
+     
     if(msg.includes("who is the best"))
     return "Obviously Aarav — he made me 😎🔥";
 
