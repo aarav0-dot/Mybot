@@ -153,6 +153,30 @@ if (msg.includes("funny"))
    
   return "Tell me more 👀";
 }
+// typing
+function showTyping(){
+
+const div = document.createElement("div");
+div.classList.add("message","bot");
+div.id="typing";
+
+div.innerHTML=`
+<div class="typing">
+<span></span>
+<span></span>
+<span></span>
+</div>
+`;
+
+messages.appendChild(div);
+messages.scrollTop = messages.scrollHeight;
+
+}
+
+function removeTyping(){
+const typing = document.getElementById("typing");
+if(typing) typing.remove();
+}
 
 function sendMessage(){
   const text = input.value.trim();
