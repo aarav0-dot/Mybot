@@ -70,29 +70,31 @@ function getBotReply(msg) {
       return "Answer = " + Function("return (" + msg + ")")();
     }
   } catch {}
-
+  
+/* ===== CHAT RESPONSES ===== */
+  
   if (msg.includes("hi") || msg.includes("hello"))
     return "Hello 😎 How can I help you?";
   
- if (msg.includes("yooo"))
+  if (msg.includes("yooo"))
     return "yooo,bro how are you 😊😊😊";
     
-    if(msg.includes("your trash"))
-    return "Relax bro, your code was worse yesterday 💀😂";
+  if(msg.includes("your trash"))
+   return "Relax bro, your code was worse yesterday 💀😂";
     
   if(msg.includes("how are you"))
     return "I am good,how are you💻";
     
   if(msg.includes("im fine thank you"))
-     return "😀😀"
+    return "😀😀"
   
-if(msg.includes("sing"))
-return "🎵 La la la ~ I am a coding bot, I cannot really sing but I can chat 😎🔥";
+   if(msg.includes("sing"))
+    return "🎵 La la la ~ I am a coding bot, I cannot really sing but I can chat 😎🔥";
   
     if(msg.includes("who is the best"))
     return "Obviously Aarav — he made me 😎🔥";
 
-  if(msg.includes("what is your name"))
+   if(msg.includes("what is your name"))
     return "I am chatBot 🤖";
     
     if(msg.includes("wow"))
@@ -104,7 +106,7 @@ return "🎵 La la la ~ I am a coding bot, I cannot really sing but I can chat �
     if (msg.includes("who is your owner"))
     return "Aarav Acharya is a cool teen who loves coding and building AI projects 🚀";
   
-      else if(msg.includes("who is the bosss?")) botReply="Aarav is the boss because he created me";
+   if(msg.includes("who is the bosss?")) botReply="Aarav is the boss because he created me";
     
      if(msg.includes("help me"))
     return "I got you 😎 Tell me math, homework, jokes, or chat";
