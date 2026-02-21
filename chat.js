@@ -37,7 +37,7 @@ function getBotReply(msg){
     if (msg.includes("yooo"))
     return "yooo,bro how are you 😊😊😊";
     
-    if(msg.includes("ur trash"))
+    if(msg.includes("your trash"))
     return "Relax bro, your code was worse yesterday 💀😂";
     
   if(msg.includes("how are you"))
@@ -65,10 +65,10 @@ function getBotReply(msg){
  if(msg.includes("boss")) 
     return "Boss mode activated 😎👑";
     
-    if(msg.includes("who is the boss"))
+    if(msg.includes("who is the boss!"))
     return "Aarav is the boss because he created me 😈🔥"; 
     
-     if(msg.includes("help"))
+     if(msg.includes("help me"))
     return "I got you 😎 Tell me math, homework, jokes, or chat";
     
     if(msg.includes("your smart"))
