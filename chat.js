@@ -76,6 +76,9 @@ function getBotReply(msg) {
   if (msg.includes("hi") || msg.includes("hello"))
     return "Hello 😎 How can I help you?";
   
+  if(msg.includes("i am sad"))
+  return "Don't be sad ❤️ You are learning coding which is awesome 😎";
+  
   if (msg.includes("yooo"))
     return "yooo,bro how are you 😊😊😊";
     
