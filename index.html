@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aarav's ChatBot 🤖</title>
+    <title>Aarav's Savage Bot 🤖</title>
     <style>
         * {
             margin: 0;
@@ -35,6 +35,423 @@
 
         /* Header */
         .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .chat-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Messages Area */
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f7fb;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot {
+            background: white;
+            color: #333;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Typing Animation */
+        .typing {
+            display: flex;
+            gap: 5px;
+            padding: 5px 0;
+        }
+
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        /* BUTTONS SECTION - 4 BUTTONS NOW! */
+        .quick-buttons {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 12px 0;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .joke-btn {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #333;
+        }
+
+        .help-btn {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .roast-btn {
+            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+            color: white;
+        }
+
+        .savage-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            color: white;
+        }
+
+        .quick-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 8px;
+        }
+
+        #input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #input:focus {
+            border-color: #667eea;
+        }
+
+        #send {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #send:hover {
+            transform: scale(1.05);
+        }
+
+        #send:active {
+            transform: scale(0.95);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .chat-container {
+                height: 95vh;
+                border-radius: 15px;
+            }
+
+            .message {
+                max-width: 85%;
+                font-size: 13px;
+            }
+
+            .quick-btn {
+                min-width: calc(50% - 10px);
+                padding: 10px 0;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Aarav's Savage Bot 🤖</h2>
+            <p>Made by Aarav 🔥</p>
+        </div>
+
+        <div id="messages" class="messages">
+            <!-- Messages will appear here -->
+        </div>
+
+        <!-- 4 BUTTONS: JOKE | HELP ME | ROAST ME | SAVAGE -->
+        <div class="quick-buttons">
+            <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">
+                😂 JOKE
+            </button>
+            <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">
+                🆘 HELP
+            </button>
+            <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">
+                🔥 ROAST ME!
+            </button>
+            <button class="quick-btn savage-btn" onclick="sendQuickMessage('savage mode')">
+                😈 SAVAGE
+            </button>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="input" placeholder="Type your message..." autocomplete="off">
+            <button id="send">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== ELEMENTS =====
+        const messages = document.getElementById("messages");
+        const input = document.getElementById("input");
+        const send = document.getElementById("send");
+
+        // ===== EVENTS =====
+        send.addEventListener("click", sendMessage);
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
+
+        // ===== QUICK MESSAGE FUNCTION =====
+        function sendQuickMessage(text) {
+            input.value = text;
+            sendMessage();
+        }
+
+        // ===== SEND MESSAGE =====
+        function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            createMessage(text, "user");
+            input.value = "";
+
+            showTyping();
+
+            setTimeout(() => {
+                removeTyping();
+                const reply = getBotReply(text);
+                createMessage(reply, "bot");
+            }, 1200);
+        }
+
+        // ===== CREATE MESSAGE =====
+        function createMessage(text, sender) {
+            const div = document.createElement("div");
+            div.classList.add("message", sender);
+            div.innerText = text;
+
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // ===== TYPING ANIMATION =====
+        function showTyping() {
+            const div = document.createElement("div");
+            div.classList.add("message", "bot");
+            div.id = "typing";
+
+            div.innerHTML = `
+                <div class="typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function removeTyping() {
+            const typing = document.getElementById("typing");
+            if (typing) typing.remove();
+        }
+
+        // ===== BOT BRAIN =====
+        function getBotReply(msg) {
+            msg = msg.toLowerCase();
+
+            // Math Solver
+            try {
+                if (/^[0-9+\-*/().%\s]+$/.test(msg)) {
+                    return "Answer = " + Function("return (" + msg + ")")();
+                }
+            } catch {}
+
+            /* ===== ROAST RESPONSES ===== */
+            if (msg.includes("roast me") || msg.includes("roast me!")) {
+                return getRandomRoast();
+            }
+
+            /* ===== SAVAGE MODE RESPONSES ===== */
+            if (msg.includes("savage") || msg.includes("savage mode")) {
+                return getRandomSavage();
+            }
+
+            /* ===== JOKE RESPONSES ===== */
+            if (msg.includes("joke") || msg.includes("tell me a joke")) {
+                return getRandomJoke();
+            }
+
+            /* ===== HELP RESPONSES ===== */
+            if (msg.includes("help me") || msg.includes("help")) {
+                return "🆘 **I GOT YOU FAM!** 😎\n\n🔹 **Try these buttons:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST ME! - Get roasted\n• 😈 SAVAGE - Ultra savage mode\n• 🆘 HELP - This menu\n\n🔹 **Type:**\n• Math (2+2, 5*3)\n• Time / Date\n• Your name\n• Anything really!";
+            }
+
+            // Regular responses
+            if (msg.includes("hi") || msg.includes("hello"))
+                return "Hello 😎 Ready to get roasted?";
+
+            if (msg.includes("how are you"))
+                return "I'm savage, you?";
+
+            if (msg.includes("your name"))
+                return "I'm Aarav's savage bot 🔥";
+
+            if (msg.includes("who made you"))
+                return "Aarav made me, and he made me savage 😈";
+
+            if (msg.includes("time"))
+                return "🕒 " + new Date().toLocaleTimeString();
+
+            if (msg.includes("date"))
+                return "📅 " + new Date().toLocaleDateString();
+
+            if (msg.includes("bye"))
+                return "Bye 👋 Don't cry from the roasts!";
+
+            return "Say something or click a button! 🔥";
+        }
+
+        // ===== RANDOM ROAST GENERATOR =====
+        function getRandomRoast() {
+            const roasts = [
+                "I'd roast you but my code doesn't support that much stupidity 💀",
+                "You're not stupid, you're just cursed by mediocrity 🔥",
+                "If I had a dollar for every brain cell you have, I'd have $0 💀",
+                "You're proof that evolution can go in reverse 😂",
+                "Your brain is like your WiFi - weak connection 💀",
+                "I'd agree with you but then we'd both be wrong 🔥",
+                "You're not funny, but your life is a joke 😂",
+                "If you were any dumber, you'd need to be watered twice a week 💀",
+                "Roses are red, violets are blue, I have 5 brain cells, and they're all better than you 🔥",
+                "You're so slow, even Google Maps can't find your brain 💀"
+            ];
+            return "🔥 **ROAST MODE ACTIVATED** 🔥\n\n" + roasts[Math.floor(Math.random() * roasts.length)];
+        }
+
+        // ===== RANDOM SAVAGE GENERATOR =====
+        function getRandomSavage() {
+            const savages = [
+                "😈 **SAVAGE MODE UNLOCKED** 😈\n\nYour WiFi is weaker than your excuses!",
+                "😈 **SAVAGE LEVEL: 100** 😈\n\nI would tell you to touch grass, but you'd probably miss and hit a rock!",
+                "😈 **BRUTAL MODE** 😈\n\nYou're not ugly, you're just a 404 error of beauty!",
+                "😈 **SAVAGE AF** 😈\n\nIf I wanted to kill myself I'd climb your ego and jump to your IQ!",
+                "😈 **ULTRA SAVAGE** 😈\n\nYou're so basic, even your default profile picture judges you!",
+                "😈 **NO MERCY** 😈\n\nI'd explain it to you, but I left my crayons at home!",
+                "😈 **SAVAGE STRIKE** 😈\n\nYou have the right to remain silent because anything you say will be wrong anyway!",
+                "😈 **DESTRUCTION 100** 😈\n\nYour code has more bugs than a 90's computer lab!",
+                "😈 **SAVAGE MODE** 😈\n\nYou're not dumb, you just have bad luck at thinking!",
+                "😈 **BRUTAL SAVAGE** 😈\n\nIf you were any more basic, you'd be a crayon color!"
+            ];
+            return savages[Math.floor(Math.random() * savages.length)];
+        }
+
+        // ===== RANDOM JOKE GENERATOR =====
+        function getRandomJoke() {
+            const jokes = [
+                "Why do programmers prefer dark mode? Because light attracts bugs 🐞",
+                "Why did the chicken cross the road? To get to the other side! 🐔",
+                "What do you call a bear with no teeth? A gummy bear! 🐻",
+                "Why don't scientists trust atoms? Because they make up everything! 😄",
+                "What's orange and sounds like a parrot? A carrot! 🥕",
+                "Why don't eggs tell jokes? They'd crack each other up! 🥚",
+                "Parallel lines have so much in common… Too bad they never meet 😆",
+                "I tried to make coffee but I only know JavaScript ☕😂",
+                "Programmers hate nature because of bugs 🐞",
+                "What do you call a programmer from Finland? Nerdic 🤓"
+            ];
+            return "😂 **JOKE TIME** 😂\n\n" + jokes[Math.floor(Math.random() * jokes.length)];
+        }
+
+        // Welcome message
+        window.onload = function() {
+            createMessage("🔥 **SAVAGE BOT ACTIVATED** 🔥", "bot");
+            createMessage("Click the buttons below:", "bot");
+            createMessage("😈 ROAST ME! 🔥 SAVAGE 😂 JOKE 🆘 HELP", "bot");
+            input.focus();
+        };
+    </script>
+</body>
+</html>        .chat-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 15px;
             color: white;
