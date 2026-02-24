@@ -18,6 +18,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
         }
 
         .chat-container {
@@ -30,24 +35,53 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .chat-container.dark-mode {
+            background: #1e1e2e;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
         /* Header */
         .chat-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
+            padding: 15px 20px;
             color: white;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .chat-header h2 {
-            font-size: 24px;
+        .header-left h2 {
+            font-size: 22px;
             margin-bottom: 5px;
         }
 
-        .chat-header p {
-            font-size: 14px;
+        .header-left p {
+            font-size: 13px;
             opacity: 0.9;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         /* Messages Area */
@@ -56,6 +90,11 @@
             overflow-y: auto;
             padding: 20px;
             background: #f5f7fb;
+            transition: background 0.3s ease;
+        }
+
+        .chat-container.dark-mode .messages {
+            background: #151521;
         }
 
         .message {
@@ -93,6 +132,13 @@
             margin-right: auto;
             border-bottom-left-radius: 4px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chat-container.dark-mode .bot {
+            background: #2d2d44;
+            color: #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         /* Typing Animation */
@@ -108,6 +154,10 @@
             background: #999;
             border-radius: 50%;
             animation: typing 1.4s infinite;
+        }
+
+        .chat-container.dark-mode .typing span {
+            background: #aaa;
         }
 
         .typing span:nth-child(2) {
@@ -132,6 +182,12 @@
             gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .chat-container.dark-mode .quick-buttons {
+            background: #1e1e2e;
+            border-top: 1px solid #444;
         }
 
         .quick-btn {
@@ -191,6 +247,12 @@
             border-top: 1px solid #e0e0e0;
             display: flex;
             gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-container.dark-mode .input-area {
+            background: #1e1e2e;
+            border-top: 1px solid #444;
         }
 
         #input {
@@ -200,10 +262,21 @@
             border-radius: 25px;
             font-size: 14px;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         #input:focus {
             border-color: #667eea;
+        }
+
+        .chat-container.dark-mode #input {
+            background: #2d2d44;
+            border-color: #444;
+            color: white;
+        }
+
+        .chat-container.dark-mode #input::placeholder {
+            color: #888;
         }
 
         #send {
@@ -239,14 +312,28 @@
             .quick-btn {
                 min-width: calc(33.33% - 10px);
             }
+            .chat-header {
+                padding: 12px 15px;
+            }
+            .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <h2>ChatBot 🤖</h2>
-            <p>Made by Aarav</p>
+            <div class="header-left">
+                <h2>ChatBot 🤖</h2>
+                <p>Made by Aarav</p>
+            </div>
+            <!-- Dark Mode Toggle Button -->
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+                <span id="modeIcon">🌙</span>
+                <span id="modeText">Dark</span>
+            </button>
         </div>
 
         <div id="messages" class="messages">
@@ -270,6 +357,39 @@
     </div>
 
     <script>
+        // ===== DARK MODE FUNCTION =====
+        function toggleDarkMode() {
+            const body = document.body;
+            const container = document.querySelector('.chat-container');
+            const modeIcon = document.getElementById('modeIcon');
+            const modeText = document.getElementById('modeText');
+            
+            body.classList.toggle('dark-mode');
+            container.classList.toggle('dark-mode');
+            
+            // Update button text and icon
+            if (body.classList.contains('dark-mode')) {
+                modeIcon.textContent = '☀️';
+                modeText.textContent = 'Light';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                modeIcon.textContent = '🌙';
+                modeText.textContent = 'Dark';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // ===== CHECK SAVED DARK MODE PREFERENCE =====
+        function loadDarkModePreference() {
+            const darkMode = localStorage.getItem('darkMode');
+            if (darkMode === 'enabled') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.chat-container').classList.add('dark-mode');
+                document.getElementById('modeIcon').textContent = '☀️';
+                document.getElementById('modeText').textContent = 'Light';
+            }
+        }
+
         // ===== ELEMENTS =====
         const messages = document.getElementById("messages");
         const input = document.getElementById("input");
@@ -343,22 +463,17 @@
             msg = msg.toLowerCase();
 
             // ===== MATH PROBLEM SOLVER =====
-            // This solves any math problem like 2+2, 5*3, 10/2, (5+3)*2, etc.
             try {
-                // Check if message contains only numbers and math symbols
                 if (/^[0-9+\-*/().%\s]+$/.test(msg) && 
-                    msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')')) {
+                    (msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')'))) {
                     
-                    // Safely evaluate the math expression
                     let result = Function('"use strict";return (' + msg + ')')();
                     
-                    // Check if result is a number
                     if (typeof result === 'number' && !isNaN(result)) {
                         return "🧮 " + msg + " = " + result;
                     }
                 }
             } catch (error) {
-                // If math evaluation fails, just continue to other responses
                 console.log("Math error:", error);
             }
 
@@ -484,31 +599,4 @@
             }
 
             // DATE button
-            if (msg.includes("date")) {
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
-            }
-
-            // TIME button
-            if (msg.includes("time")) {
-                return "⏰ Current time is " + new Date().toLocaleTimeString();
-            }
-
-            // Regular responses
-            if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey"))
-                return "Hello 😎 How can I help you?";
-
-            if (msg.includes("bye") || msg.includes("goodbye"))
-                return "Bye bro 😎 Come back for more!";
-
-            return "Tell me more, ask a question, or type a math problem like 2+2! 👀";
-        }
-
-        // Welcome message
-        window.onload = function() {
-            createMessage("Hello! I'm chatbot made by Aarav 🤖", "bot");
-            input.focus();
-        };
-    </script>
-</body>
-</html>
+            if (msg.includes("da
