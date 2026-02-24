@@ -253,7 +253,7 @@
             <!-- Messages appear here -->
         </div>
 
-        <!-- 6 BUTTONS: JOKE, HELP ME, ROAST ME, SAVAGE, DATE, TIME -->
+        <!-- 6 BUTTONS: JOKE, HELP, ROAST, SAVAGE, DATE, TIME -->
         <div class="quick-buttons">
             <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
             <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
@@ -264,7 +264,7 @@
         </div>
 
         <div class="input-area">
-            <input type="text" id="input" placeholder="Type your message..." autocomplete="off">
+            <input type="text" id="input" placeholder="Type your message or math problem (e.g., 2+2)..." autocomplete="off">
             <button id="send">Send</button>
         </div>
     </div>
@@ -342,16 +342,106 @@
         function getBotReply(msg) {
             msg = msg.toLowerCase();
 
-            // Math Solver
+            // ===== MATH PROBLEM SOLVER =====
+            // This solves any math problem like 2+2, 5*3, 10/2, (5+3)*2, etc.
             try {
-                if (/^[0-9+\-*/().%\s]+$/.test(msg)) {
-                    return "Answer = " + Function("return (" + msg + ")")();
+                // Check if message contains only numbers and math symbols
+                if (/^[0-9+\-*/().%\s]+$/.test(msg) && 
+                    msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')')) {
+                    
+                    // Safely evaluate the math expression
+                    let result = Function('"use strict";return (' + msg + ')')();
+                    
+                    // Check if result is a number
+                    if (typeof result === 'number' && !isNaN(result)) {
+                        return "🧮 " + msg + " = " + result;
+                    }
                 }
-            } catch {}
+            } catch (error) {
+                // If math evaluation fails, just continue to other responses
+                console.log("Math error:", error);
+            }
 
-            // ROAST ME! button
+            // ===== YOUR ORIGINAL RESPONSES =====
+            if (msg.includes("i am sad") || msg.includes("i'm sad") || msg.includes("im sad"))
+                return "Don't be sad ❤️ You are learning coding which is awesome 😎";
+
+            if (msg.includes("yooo") || msg.includes("yo"))
+                return "yooo, bro how are you 😊😊😊";
+
+            if (msg.includes("your trash") || msg.includes("you're trash") || msg.includes("u trash"))
+                return "Relax bro, your code was worse yesterday 💀😂";
+
+            if (msg.includes("how are you"))
+                return "I am good, how are you 💻";
+
+            if (msg.includes("im fine thank you") || msg.includes("i'm fine thank you"))
+                return "😀😀";
+
+            if (msg.includes("sing"))
+                return "🎵 nigga nigga nigga nigga i am little monkey nigga";
+
+            if (msg.includes("who is the best"))
+                return "Obviously Aarav — he made me 😎🔥";
+
+            if (msg.includes("what is your name") || msg.includes("your name"))
+                return "I am chatBot 🤖";
+
+            if (msg.includes("wow"))
+                return "Wow indeed 😎🔥";
+
+            if (msg.includes("are you black"))
+                return "bruh 💀 im not black ur blackkk";
+
+            if (msg.includes("who is your owner") || msg.includes("who made you"))
+                return "Aarav Acharya is a cool teen who loves coding and building AI projects 🚀";
+
+            if (msg.includes("who is the bosss") || msg.includes("who is the boss"))
+                return "Aarav is the boss because he created me";
+
+            if (msg.includes("your smart") || msg.includes("you're smart"))
+                return "I learn from Aarav's code 😎🧠";
+
+            if (msg.includes("dream"))
+                return "Dream big, code bigger 🚀";
+
+            // Homework Help
+            if (msg.includes("homework"))
+                return "Sure 😎 Tell me the subject — Math, Science, English, or others?";
+
+            if (msg.includes("haha") || msg.includes("lol"))
+                return "Glad you are laughing 😆🔥";
+
+            if (msg.includes("math") && !msg.match(/[0-9+\-*/().%]/))
+                return "For math → Try typing a problem like: 5+3, 10*2, (4+5)*2, etc. 🔢";
+
+            if (msg.includes("science"))
+                return "Science help 🧪: Ask me about physics, biology, or chemistry concepts";
+
+            if (msg.includes("english"))
+                return "English help 📖: I can help with grammar or meanings of words";
+
+            if (msg.includes("what is ai"))
+                return "AI means Artificial Intelligence — machines learning like humans 🧠";
+
+            if (msg.includes("what is gravity"))
+                return "Gravity is the force that pulls objects toward Earth 🌍";
+
+            if (msg.includes("what is photosynthesis"))
+                return "Photosynthesis is how plants make food using sunlight ☀️🌱";
+
+            if (msg.includes("what is noun"))
+                return "A noun is a name of a person, place, or thing 📚";
+
+            if (msg.includes("you are stupid") || msg.includes("u stupid"))
+                return "At least I don't write bugs like you 💀";
+
+            // ===== BUTTON RESPONSES =====
+            
+            // ROAST button
             if (msg.includes("roast me") || msg.includes("roast")) {
                 let roasts = [
+                    "🔥 I would roast you but I respect your feelings… just kidding 😈 Your WiFi is faster than your brain 💀😂",
                     "🔥 Your brain is like your WiFi - weak connection!",
                     "🔥 If I had a dollar for every brain cell you have, I'd have $0!",
                     "🔥 You're not stupid, you're just cursed by mediocrity!",
@@ -376,138 +466,48 @@
             }
 
             // JOKE button
-            if (msg.includes("joke")) {
+            if (msg.includes("joke") || msg.includes("tell me a joke")) {
                 let jokes = [
+                    "😂 Programmers hate nature because of bugs 🐞😂",
                     "😂 Why do programmers prefer dark mode? Light attracts bugs!",
                     "😂 Why don't scientists trust atoms? They make up everything!",
                     "😂 What do you call a bear with no teeth? A gummy bear!",
                     "😂 Parallel lines have so much in common… Too bad they never meet!",
-                    "😂 I tried to make coffee but I only know JavaScript!",
-                    "😂 Programmers hate nature because of bugs!"
+                    "😂 I tried to make coffee but I only know JavaScript!"
                 ];
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
             // HELP button
-            if (msg.includes("help")) {
-                return "🆘 **BUTTONS:**\n😂 JOKE - Funny jokes\n🔥 ROAST - Get roasted\n😈 SAVAGE - Savage mode\n📅 DATE - Today's date\n⏰ TIME - Current time\n🆘 HELP - This menu\n\nType anything!";
+            if (msg.includes("help me") || msg.includes("help")) {
+                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• 🆘 HELP - This menu\n\n**TYPE:**\n• Math problems (2+2, 5*3, 10/2)\n• Homework help\n• Questions about AI, gravity\n• Anything!";
             }
 
-            // DATE button - FIXED
+            // DATE button
             if (msg.includes("date")) {
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
             }
 
-            // TIME button - FIXED
+            // TIME button
             if (msg.includes("time")) {
                 return "⏰ Current time is " + new Date().toLocaleTimeString();
             }
 
             // Regular responses
-            if (msg.includes("hi") || msg.includes("hello"))
-                return "Hello 😎 Click the buttons above!";
+            if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey"))
+                return "Hello 😎 How can I help you?";
 
-            if (msg.includes("how are you"))
-                return "I'm good, how are you? 💻";
-
-            if (msg.includes("your name"))
-                return "I'm Aarav's chatbot 🤖";
-            
-            if(msg.includes("i am sad"))
-               return "Don't be sad ❤️ You are learning coding which is awesome 😎";
-  
-           if (msg.includes("yooo"))
-              return "yooo,bro how are you 😊😊😊";
-    
-  if(msg.includes("your trash"))
-   return "Relax bro, your code was worse yesterday 💀😂";
-    
-  if(msg.includes("how are you"))
-    return "I am good,how are you💻";
-    
-  if(msg.includes("im fine thank you"))
-    return "😀😀"
-  
-   if(msg.includes("sing"))
-    return "🎵nigga nigga nigga nigga i am littel monley nigga";
-  
-    if(msg.includes("who is the best"))
-    return "Obviously Aarav — he made me 😎🔥";
-
-   if(msg.includes("what is your name"))
-    return "I am chatBot 🤖";
-    
-    if(msg.includes("wow"))
-    return "Wow indeed 😎🔥";
-    
-    if(msg.includes("are you black"))
-    return "bruh💀 im not black ur blackkk"
-    
-    if (msg.includes("who is your owner"))
-    return "Aarav Acharya is a cool teen who loves coding and building AI projects 🚀";
-  
-   if(msg.includes("who is the bosss?")) botReply="Aarav is the boss because he created me";
-    
-     if(msg.includes("help me"))
-    return "I got you 😎 Tell me math, homework, jokes, or chat";
-    
-    if(msg.includes("your smart"))
-    return "I learn from Aarav's code 😎🧠";
-     
-    if(msg.includes("dream"))
-    return "Dream big, code bigger 🚀";
-
-    
-    // 📚 Homework Help
- if(msg.includes("homework"))
-   return "Sure 😎 Tell me the subject — Math, Science, English, or others?";
-   
-   if(msg.includes("haha"))
-    return "Glad you are laughing😆🔥";
-
- if(msg.includes("math"))
-   return "For math → I can help explain steps. Try typing your math problem 🔢";
-
- if(msg.includes("science"))
-   return "Science help 🧪: Ask me about physics, biology, or chemistry concepts";
-
- if(msg.includes("english"))
-   return "English help 📖: I can help with grammar or meanings of words";
-
- if(msg.includes("what is ai"))
-   return "AI means Artificial Intelligence — machines learning like humans 🧠";
-
- if(msg.includes("what is gravity"))
-   return "Gravity is the force that pulls objects toward Earth 🌍";
-
- if(msg.includes("what is photosynthesis"))
-   return "Photosynthesis is how plants make food using sunlight ☀️🌱";
-   
-if(msg.includes("roast me!"))
-    return "I would roast you but I respect your feelings… just kidding 😈 Your WiFi is faster than your brain 💀😂";
-
- if(msg.includes("what is noun"))
-   return "A noun is a name of a person, place, or thing 📚";
-   
-   if(msg.includes("you are stupid"))
-    return "At least I don't write bugs like you 💀";
-
-  if(msg.includes("tell a joke"))
-    return "Programmers hate nature because of bugs 🐞😂";
-  
-            if (msg.includes("who made you") || msg.includes("your owner"))
-                return "Aarav made me! 😎🔥";
-
-            if (msg.includes("bye"))
+            if (msg.includes("bye") || msg.includes("goodbye"))
                 return "Bye bro 😎 Come back for more!";
 
-            return "Click a button above! 👆";
+            return "Tell me more, ask a question, or type a math problem like 2+2! 👀";
         }
 
         // Welcome message
         window.onload = function() {
             createMessage("Hello! I'm Aarav's chatbot 🤖", "bot");
+            createMessage("Try typing math: 2+2, 5*3, 10/2, (4+5)*2", "bot");
             createMessage("6 buttons: JOKE, HELP, ROAST, SAVAGE, DATE, TIME", "bot");
             input.focus();
         };
