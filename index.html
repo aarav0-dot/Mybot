@@ -123,7 +123,7 @@
             30% { transform: translateY(-8px); }
         }
 
-        /* Quick Buttons - 4 BUTTONS */
+        /* Quick Buttons - 6 BUTTONS */
         .quick-buttons {
             padding: 15px;
             background: white;
@@ -135,7 +135,7 @@
         }
 
         .quick-btn {
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 25px;
             font-size: 14px;
@@ -143,7 +143,7 @@
             cursor: pointer;
             transition: transform 0.2s;
             flex: 1;
-            min-width: 100px;
+            min-width: 90px;
         }
 
         .joke-btn {
@@ -164,6 +164,16 @@
         .savage-btn {
             background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
             color: white;
+        }
+
+        .date-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: #333;
+        }
+
+        .time-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #333;
         }
 
         .quick-btn:hover {
@@ -227,7 +237,7 @@
                 max-width: 85%;
             }
             .quick-btn {
-                min-width: calc(50% - 10px);
+                min-width: calc(33.33% - 10px);
             }
         }
     </style>
@@ -243,14 +253,14 @@
             <!-- Messages appear here -->
         </div>
 
-        <!-- 4 BUTTONS: JOKE, HELP ME, ROAST ME, SAVAGE -->
+        <!-- 6 BUTTONS: JOKE, HELP ME, ROAST ME, SAVAGE, DATE, TIME -->
         <div class="quick-buttons">
             <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
-            <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP ME</button>
-            <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">🔥 ROAST ME!</button>
+            <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
+            <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">🔥 ROAST</button>
             <button class="quick-btn savage-btn" onclick="sendQuickMessage('savage')">😈 SAVAGE</button>
-            <button class="quick-btn date-btn" oneclick="sendQuickMessage('date')">📅 Date</button>
-            <button class="quick-btn time-btn" oneclick="sendQuickMessage('time')">⏰ Time</button>
+            <button class="quick-btn date-btn" onclick="sendQuickMessage('date')">📅 DATE</button>
+            <button class="quick-btn time-btn" onclick="sendQuickMessage('time')">⏰ TIME</button>
         </div>
 
         <div class="input-area">
@@ -340,29 +350,28 @@
             } catch {}
 
             // ROAST ME! button
-            if (msg.includes("roast me")) {
+            if (msg.includes("roast me") || msg.includes("roast")) {
                 let roasts = [
-                    "I'd roast you but my code doesn't support that much stupidity 💀",
-                    "Your brain is like your WiFi - weak connection 🔥",
-                    "If I had a dollar for every brain cell you have, I'd have $0 💀",
-                    "You're not stupid, you're just cursed by mediocrity 🔥",
-                    "You're proof that evolution can go in reverse 😂",
-                    "I'd agree with you but then we'd both be wrong 💀",
-                    "Roses are red, violets are blue, I have 5 brain cells, and they're all better than you 🔥",
-                    "You're so slow, even Google Maps can't find your brain 💀"
+                    "🔥 Your brain is like your WiFi - weak connection!",
+                    "🔥 If I had a dollar for every brain cell you have, I'd have $0!",
+                    "🔥 You're not stupid, you're just cursed by mediocrity!",
+                    "🔥 I'd roast you but my code doesn't support that much stupidity!",
+                    "🔥 You're proof that evolution can go in reverse!",
+                    "🔥 I'd agree with you but then we'd both be wrong!",
+                    "🔥 You're so slow, even Google Maps can't find your brain!"
                 ];
-                return "🔥 **ROAST MODE** 🔥\n\n" + roasts[Math.floor(Math.random() * roasts.length)];
+                return roasts[Math.floor(Math.random() * roasts.length)];
             }
 
             // SAVAGE button
             if (msg.includes("savage")) {
                 let savages = [
-                    "😈 **SAVAGE MODE UNLOCKED** 😈\n\nYour WiFi is weaker than your excuses!",
-                    "😈 **ULTRA SAVAGE** 😈\n\nYou're so basic, even your default profile picture judges you!",
-                    "😈 **BRUTAL MODE** 😈\n\nYou have the right to remain silent because anything you say will be wrong anyway!",
-                    "😈 **SAVAGE LEVEL 100** 😈\n\nYour code has more bugs than a 90's computer lab!",
-                    "😈 **NO MERCY** 😈\n\nI'd explain it to you, but I left my crayons at home!",
-                    "😈 **DESTRUCTION MODE** 😈\n\nIf you were any more basic, you'd be a crayon color!"
+                    "😈 Your WiFi is weaker than your excuses!",
+                    "😈 You're so basic, even your profile picture judges you!",
+                    "😈 You have the right to remain silent because anything you say will be wrong!",
+                    "😈 I'd explain it to you, but I left my crayons at home!",
+                    "😈 Your code has more bugs than a 90's computer lab!",
+                    "😈 If you were any more basic, you'd be a crayon color!"
                 ];
                 return savages[Math.floor(Math.random() * savages.length)];
             }
@@ -370,50 +379,55 @@
             // JOKE button
             if (msg.includes("joke")) {
                 let jokes = [
-                    "Why do programmers prefer dark mode? Because light attracts bugs 🐞",
-                    "Why don't scientists trust atoms? Because they make up everything! 😄",
-                    "What do you call a bear with no teeth? A gummy bear! 🐻",
-                    "Parallel lines have so much in common… Too bad they never meet 😆",
-                    "I tried to make coffee but I only know JavaScript ☕😂",
-                    "Programmers hate nature because of bugs 🐞"
+                    "😂 Why do programmers prefer dark mode? Light attracts bugs!",
+                    "😂 Why don't scientists trust atoms? They make up everything!",
+                    "😂 What do you call a bear with no teeth? A gummy bear!",
+                    "😂 Parallel lines have so much in common… Too bad they never meet!",
+                    "😂 I tried to make coffee but I only know JavaScript!",
+                    "😂 Programmers hate nature because of bugs!"
                 ];
-                return "😂 **JOKE TIME** 😂\n\n" + jokes[Math.floor(Math.random() * jokes.length)];
+                return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
-            // HELP ME button
-            if (msg.includes("help me")) {
-                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST ME! - Get roasted\n• 😈 SAVAGE - Savage mode\n• 🆘 HELP ME - This menu\n\n**TYPE:**\n• Math (2+2)\n• Time / Date\n• Your name\n• Anything!";
+            // HELP button
+            if (msg.includes("help")) {
+                return "🆘 **BUTTONS:**\n😂 JOKE - Funny jokes\n🔥 ROAST - Get roasted\n😈 SAVAGE - Savage mode\n📅 DATE - Today's date\n⏰ TIME - Current time\n🆘 HELP - This menu\n\nType anything!";
             }
 
-            // Your original responses
+            // DATE button
+            if (msg.includes("date")) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return "📅 " + new Date().toLocaleDateString(undefined, options);
+            }
+
+            // TIME button
+            if (msg.includes("time")) {
+                return "⏰ " + new Date().toLocaleTimeString();
+            }
+
+            // Regular responses
             if (msg.includes("hi") || msg.includes("hello"))
-                return "Hello 😎 How can I help you?";
+                return "Hello 😎 Click the buttons above!";
 
             if (msg.includes("how are you"))
-                return "I am good, how are you 💻";
+                return "I'm good, how are you? 💻";
 
             if (msg.includes("your name"))
-                return "I am chatBot 🤖";
+                return "I'm Aarav's chatbot 🤖";
 
             if (msg.includes("who made you") || msg.includes("your owner"))
                 return "Aarav made me! 😎🔥";
 
-            if (msg.includes("time"))
-                return "🕒 " + new Date().toLocaleTimeString();
-
-            if (msg.includes("date"))
-                return "📅 " + new Date().toLocaleDateString();
-
             if (msg.includes("bye"))
-                return "Bye bro 😎";
+                return "Bye bro 😎 Come back for more!";
 
-            return "Tell me more or click a button! 👀";
+            return "Click a button above! 👆";
         }
 
         // Welcome message
         window.onload = function() {
             createMessage("Hello! I'm Aarav's chatbot 🤖", "bot");
-            createMessage("Try the new buttons: 🔥 ROAST ME! and 😈 SAVAGE", "bot");
+            createMessage("6 buttons: JOKE, HELP, ROAST, SAVAGE, DATE, TIME", "bot");
             input.focus();
         };
     </script>
