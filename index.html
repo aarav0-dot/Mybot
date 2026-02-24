@@ -357,7 +357,6 @@
                     "🔥 You're not stupid, you're just cursed by mediocrity!",
                     "🔥 I'd roast you but my code doesn't support that much stupidity!",
                     "🔥 You're proof that evolution can go in reverse!",
-                    "🔥 I'd agree with you but then we'd both be wrong!",
                     "🔥 You're so slow, even Google Maps can't find your brain!"
                 ];
                 return roasts[Math.floor(Math.random() * roasts.length)];
@@ -394,15 +393,15 @@
                 return "🆘 **BUTTONS:**\n😂 JOKE - Funny jokes\n🔥 ROAST - Get roasted\n😈 SAVAGE - Savage mode\n📅 DATE - Today's date\n⏰ TIME - Current time\n🆘 HELP - This menu\n\nType anything!";
             }
 
-            // DATE button
+            // DATE button - FIXED
             if (msg.includes("date")) {
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return "📅 " + new Date().toLocaleDateString(undefined, options);
+                return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
             }
 
-            // TIME button
+            // TIME button - FIXED
             if (msg.includes("time")) {
-                return "⏰ " + new Date().toLocaleTimeString();
+                return "⏰ Current time is " + new Date().toLocaleTimeString();
             }
 
             // Regular responses
