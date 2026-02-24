@@ -35,36 +35,35 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease;
         }
 
         .chat-container.dark-mode {
             background: #1e1e2e;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
         /* Header */
         .chat-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px 20px;
+            padding: 20px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .header-left h2 {
-            font-size: 22px;
+        .chat-header h2 {
+            font-size: 24px;
             margin-bottom: 5px;
         }
 
-        .header-left p {
-            font-size: 13px;
+        .chat-header p {
+            font-size: 14px;
             opacity: 0.9;
         }
 
-        /* Dark Mode Toggle */
-        .dark-mode-toggle {
+        /* Dark Mode Button */
+        .dark-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 30px;
@@ -75,11 +74,11 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             transition: all 0.3s;
         }
 
-        .dark-mode-toggle:hover {
+        .dark-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
         }
@@ -138,7 +137,6 @@
         .chat-container.dark-mode .bot {
             background: #2d2d44;
             color: #e0e0e0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         /* Typing Animation */
@@ -312,10 +310,7 @@
             .quick-btn {
                 min-width: calc(33.33% - 10px);
             }
-            .chat-header {
-                padding: 12px 15px;
-            }
-            .dark-mode-toggle {
+            .dark-btn {
                 padding: 6px 12px;
                 font-size: 12px;
             }
@@ -325,14 +320,13 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <div class="header-left">
+            <div>
                 <h2>ChatBot 🤖</h2>
                 <p>Made by Aarav</p>
             </div>
-            <!-- Dark Mode Toggle Button -->
-            <button class="dark-mode-toggle" onclick="toggleDarkMode()">
-                <span id="modeIcon">🌙</span>
-                <span id="modeText">Dark</span>
+            <!-- DARK MODE BUTTON - Just click it! -->
+            <button class="dark-btn" onclick="toggleDarkMode()" id="darkModeBtn">
+                <span id="modeIcon">🌙</span> <span id="modeText">Dark</span>
             </button>
         </div>
 
@@ -357,7 +351,7 @@
     </div>
 
     <script>
-        // ===== DARK MODE FUNCTION =====
+        // ===== DARK MODE TOGGLE FUNCTION =====
         function toggleDarkMode() {
             const body = document.body;
             const container = document.querySelector('.chat-container');
@@ -367,7 +361,7 @@
             body.classList.toggle('dark-mode');
             container.classList.toggle('dark-mode');
             
-            // Update button text and icon
+            // Change button text based on mode
             if (body.classList.contains('dark-mode')) {
                 modeIcon.textContent = '☀️';
                 modeText.textContent = 'Light';
@@ -379,10 +373,9 @@
             }
         }
 
-        // ===== CHECK SAVED DARK MODE PREFERENCE =====
-        function loadDarkModePreference() {
-            const darkMode = localStorage.getItem('darkMode');
-            if (darkMode === 'enabled') {
+        // ===== LOAD SAVED DARK MODE PREFERENCE =====
+        function loadDarkMode() {
+            if (localStorage.getItem('darkMode') === 'enabled') {
                 document.body.classList.add('dark-mode');
                 document.querySelector('.chat-container').classList.add('dark-mode');
                 document.getElementById('modeIcon').textContent = '☀️';
@@ -599,4 +592,10 @@
             }
 
             // DATE button
-            if (msg.includes("da
+            if (msg.includes("date")) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
+            }
+
+            // TIME button
+            if (
