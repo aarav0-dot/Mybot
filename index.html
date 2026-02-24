@@ -45,42 +45,48 @@
         /* Header */
         .chat-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
+            padding: 15px 20px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .chat-header h2 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        .header-text h2 {
+            font-size: 22px;
+            margin-bottom: 3px;
         }
 
-        .chat-header p {
-            font-size: 14px;
+        .header-text p {
+            font-size: 13px;
             opacity: 0.9;
         }
 
-        /* Dark Mode Button */
-        .dark-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            padding: 8px 16px;
+        /* Dark Mode Button - BIG and CLICKABLE */
+        .dark-mode-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            padding: 10px 18px;
             color: white;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 5px;
-            transition: all 0.3s;
+            gap: 8px;
+            transition: all 0.2s;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .dark-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .dark-mode-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
             transform: scale(1.05);
+        }
+
+        .dark-mode-btn:active {
+            transform: scale(0.95);
         }
 
         /* Messages Area */
@@ -171,13 +177,13 @@
             30% { transform: translateY(-8px); }
         }
 
-        /* Quick Buttons - 6 BUTTONS */
+        /* Quick Buttons */
         .quick-buttons {
             padding: 15px;
             background: white;
             border-top: 1px solid #e0e0e0;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             justify-content: center;
             transition: all 0.3s ease;
@@ -189,15 +195,15 @@
         }
 
         .quick-btn {
-            padding: 10px 15px;
+            padding: 8px 12px;
             border: none;
             border-radius: 25px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: transform 0.2s;
             flex: 1;
-            min-width: 90px;
+            min-width: 80px;
         }
 
         .joke-btn {
@@ -240,11 +246,11 @@
 
         /* Input Area */
         .input-area {
-            padding: 20px;
+            padding: 15px;
             background: white;
             border-top: 1px solid #e0e0e0;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.3s ease;
         }
 
@@ -308,11 +314,13 @@
                 max-width: 85%;
             }
             .quick-btn {
-                min-width: calc(33.33% - 10px);
-            }
-            .dark-btn {
-                padding: 6px 12px;
+                min-width: calc(33.33% - 8px);
                 font-size: 12px;
+                padding: 8px 5px;
+            }
+            .dark-mode-btn {
+                padding: 8px 12px;
+                font-size: 13px;
             }
         }
     </style>
@@ -320,13 +328,14 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <div>
+            <div class="header-text">
                 <h2>ChatBot 🤖</h2>
                 <p>Made by Aarav</p>
             </div>
-            <!-- DARK MODE BUTTON - Just click it! -->
-            <button class="dark-btn" onclick="toggleDarkMode()" id="darkModeBtn">
-                <span id="modeIcon">🌙</span> <span id="modeText">Dark</span>
+            <!-- DARK MODE BUTTON - DEFINITELY CLICKABLE -->
+            <button class="dark-mode-btn" onclick="toggleDarkMode()" id="darkBtn">
+                <span id="darkIcon">🌙</span>
+                <span id="darkText">Dark</span>
             </button>
         </div>
 
@@ -334,7 +343,7 @@
             <!-- Messages appear here -->
         </div>
 
-        <!-- 6 BUTTONS: JOKE, HELP, ROAST, SAVAGE, DATE, TIME -->
+        <!-- 6 BUTTONS -->
         <div class="quick-buttons">
             <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
             <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
@@ -351,35 +360,42 @@
     </div>
 
     <script>
-        // ===== DARK MODE TOGGLE FUNCTION =====
+        // ===== SIMPLE DARK MODE FUNCTION =====
         function toggleDarkMode() {
+            // Get elements
             const body = document.body;
             const container = document.querySelector('.chat-container');
-            const modeIcon = document.getElementById('modeIcon');
-            const modeText = document.getElementById('modeText');
+            const darkIcon = document.getElementById('darkIcon');
+            const darkText = document.getElementById('darkText');
             
+            // Toggle dark mode class
             body.classList.toggle('dark-mode');
             container.classList.toggle('dark-mode');
             
-            // Change button text based on mode
+            // Update button text
             if (body.classList.contains('dark-mode')) {
-                modeIcon.textContent = '☀️';
-                modeText.textContent = 'Light';
-                localStorage.setItem('darkMode', 'enabled');
+                darkIcon.textContent = '☀️';
+                darkText.textContent = 'Light';
+                localStorage.setItem('darkMode', 'on');
             } else {
-                modeIcon.textContent = '🌙';
-                modeText.textContent = 'Dark';
-                localStorage.setItem('darkMode', 'disabled');
+                darkIcon.textContent = '🌙';
+                darkText.textContent = 'Dark';
+                localStorage.setItem('darkMode', 'off');
             }
+            
+            // Add console log to confirm click works
+            console.log('Dark mode toggled!');
         }
 
-        // ===== LOAD SAVED DARK MODE PREFERENCE =====
-        function loadDarkMode() {
-            if (localStorage.getItem('darkMode') === 'enabled') {
+        // ===== LOAD DARK MODE PREFERENCE =====
+        function loadDarkModeSetting() {
+            const savedMode = localStorage.getItem('darkMode');
+            
+            if (savedMode === 'on') {
                 document.body.classList.add('dark-mode');
                 document.querySelector('.chat-container').classList.add('dark-mode');
-                document.getElementById('modeIcon').textContent = '☀️';
-                document.getElementById('modeText').textContent = 'Light';
+                document.getElementById('darkIcon').textContent = '☀️';
+                document.getElementById('darkText').textContent = 'Light';
             }
         }
 
@@ -588,14 +604,4 @@
 
             // HELP button
             if (msg.includes("help me") || msg.includes("help")) {
-                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• 🆘 HELP - This menu\n\n**TYPE:**\n• Math problems (2+2, 5*3, 10/2)\n• Homework help\n• Questions about AI, gravity\n• Anything!";
-            }
-
-            // DATE button
-            if (msg.includes("date")) {
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
-            }
-
-            // TIME button
-            if (
+                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• �
