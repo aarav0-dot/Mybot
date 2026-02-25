@@ -62,24 +62,31 @@
             opacity: 0.9;
         }
 
-        /* Dark Mode Button */
+        /* Dark Mode Button - BIG and CLICKABLE */
         .dark-mode-btn {
             background: rgba(255, 255, 255, 0.25);
             border: 2px solid rgba(255, 255, 255, 0.4);
             border-radius: 40px;
-            padding: 8px 16px;
+            padding: 10px 18px;
             color: white;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             transition: all 0.2s;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .dark-mode-btn:hover {
             background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        .dark-mode-btn:active {
+            transform: scale(0.95);
         }
 
         /* Messages Area */
@@ -309,6 +316,11 @@
             .quick-btn {
                 min-width: calc(33.33% - 8px);
                 font-size: 12px;
+                padding: 8px 5px;
+            }
+            .dark-mode-btn {
+                padding: 8px 12px;
+                font-size: 13px;
             }
         }
     </style>
@@ -320,8 +332,8 @@
                 <h2>ChatBot 🤖</h2>
                 <p>Made by Aarav</p>
             </div>
-            <!-- SIMPLE DARK MODE BUTTON -->
-            <button class="dark-mode-btn" id="darkModeToggle">
+            <!-- DARK MODE BUTTON - DEFINITELY CLICKABLE -->
+            <button class="dark-mode-btn" onclick="toggleDarkMode()" id="darkBtn">
                 <span id="darkIcon">🌙</span>
                 <span id="darkText">Dark</span>
             </button>
@@ -348,101 +360,133 @@
     </div>
 
     <script>
+        // ===== SIMPLE DARK MODE FUNCTION =====
+        function toggleDarkMode() {
+            // Get elements
+            const body = document.body;
+            const container = document.querySelector('.chat-container');
+            const darkIcon = document.getElementById('darkIcon');
+            const darkText = document.getElementById('darkText');
+            
+            // Toggle dark mode class
+            body.classList.toggle('dark-mode');
+            container.classList.toggle('dark-mode');
+            
+            // Update button text
+            if (body.classList.contains('dark-mode')) {
+                darkIcon.textContent = '☀️';
+                darkText.textContent = 'Light';
+                localStorage.setItem('darkMode', 'on');
+            } else {
+                darkIcon.textContent = '🌙';
+                darkText.textContent = 'Dark';
+                localStorage.setItem('darkMode', 'off');
+            }
+            
+            // Add console log to confirm click works
+            console.log('Dark mode toggled!');
+        }
+
+        // ===== LOAD DARK MODE PREFERENCE =====
+        function loadDarkModeSetting() {
+            const savedMode = localStorage.getItem('darkMode');
+            
+            if (savedMode === 'on') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.chat-container').classList.add('dark-mode');
+                document.getElementById('darkIcon').textContent = '☀️';
+                document.getElementById('darkText').textContent = 'Light';
+            }
+        }
+
         // ===== ELEMENTS =====
         const messages = document.getElementById("messages");
         const input = document.getElementById("input");
         const send = document.getElementById("send");
-        const darkModeToggle = document.getElementById("darkModeToggle");
-        const darkIcon = document.getElementById("darkIcon");
-        const darkText = document.getElementById("darkText");
 
-        // ===== DARK MODE TOGGLE =====
-        darkModeToggle.addEventListener("click", function() {
-            document.body.classList.toggle("dark-mode");
-            document.querySelector(".chat-container").classList.toggle("dark-mode");
-            
-            if (document.body.classList.contains("dark-mode")) {
-                darkIcon.textContent = "☀️";
-                darkText.textContent = "Light";
-                localStorage.setItem("darkMode", "on");
-            } else {
-                darkIcon.textContent = "🌙";
-                darkText.textContent = "Dark";
-                localStorage.setItem("darkMode", "off");
-            }
+        // ===== EVENTS =====
+        send.addEventListener("click", sendMessage);
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") sendMessage();
         });
 
-        // ===== LOAD DARK MODE =====
-        if (localStorage.getItem("darkMode") === "on") {
-            document.body.classList.add("dark-mode");
-            document.querySelector(".chat-container").classList.add("dark-mode");
-            darkIcon.textContent = "☀️";
-            darkText.textContent = "Light";
+        // ===== QUICK MESSAGE FUNCTION =====
+        function sendQuickMessage(text) {
+            input.value = text;
+            sendMessage();
         }
 
-        // ===== SEND MESSAGE FUNCTION =====
+        // ===== SEND MESSAGE =====
         function sendMessage() {
             const text = input.value.trim();
             if (!text) return;
 
-            // Add user message
-            const userDiv = document.createElement("div");
-            userDiv.classList.add("message", "user");
-            userDiv.innerText = text;
-            messages.appendChild(userDiv);
-            
-            // Clear input
+            createMessage(text, "user");
             input.value = "";
-            
-            // Scroll to bottom
-            messages.scrollTop = messages.scrollHeight;
 
-            // Show typing
-            const typingDiv = document.createElement("div");
-            typingDiv.classList.add("message", "bot");
-            typingDiv.id = "typing";
-            typingDiv.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
-            messages.appendChild(typingDiv);
-            messages.scrollTop = messages.scrollHeight;
+            showTyping();
 
-            // Get response after delay
             setTimeout(() => {
-                // Remove typing
-                const typing = document.getElementById("typing");
-                if (typing) typing.remove();
-
-                // Add bot response
+                removeTyping();
                 const reply = getBotReply(text);
-                const botDiv = document.createElement("div");
-                botDiv.classList.add("message", "bot");
-                botDiv.innerText = reply;
-                messages.appendChild(botDiv);
-                messages.scrollTop = messages.scrollHeight;
+                createMessage(reply, "bot");
             }, 1200);
         }
 
-        // ===== QUICK MESSAGE =====
-        function sendQuickMessage(text) {
-            input.value = text;
-            sendMessage();
+        // ===== CREATE MESSAGE =====
+        function createMessage(text, sender) {
+            const div = document.createElement("div");
+            div.classList.add("message", sender);
+            div.innerText = text;
+
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // ===== TYPING ANIMATION =====
+        function showTyping() {
+            const div = document.createElement("div");
+            div.classList.add("message", "bot");
+            div.id = "typing";
+
+            div.innerHTML = `
+                <div class="typing">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function removeTyping() {
+            const typing = document.getElementById("typing");
+            if (typing) typing.remove();
         }
 
         // ===== BOT BRAIN =====
         function getBotReply(msg) {
             msg = msg.toLowerCase();
 
-            // MATH SOLVER
+            // ===== MATH PROBLEM SOLVER =====
             try {
                 if (/^[0-9+\-*/().%\s]+$/.test(msg) && 
                     (msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')'))) {
+                    
                     let result = Function('"use strict";return (' + msg + ')')();
+                    
                     if (typeof result === 'number' && !isNaN(result)) {
                         return "🧮 " + msg + " = " + result;
                     }
                 }
-            } catch (error) {}
+            } catch (error) {
+                console.log("Math error:", error);
+            }
 
-            // YOUR RESPONSES
+            // ===== YOUR ORIGINAL RESPONSES =====
             if (msg.includes("i am sad") || msg.includes("i'm sad") || msg.includes("im sad"))
                 return "Don't be sad ❤️ You are learning coding which is awesome 😎";
 
@@ -485,6 +529,7 @@
             if (msg.includes("dream"))
                 return "Dream big, code bigger 🚀";
 
+            // Homework Help
             if (msg.includes("homework"))
                 return "Sure 😎 Tell me the subject — Math, Science, English, or others?";
 
@@ -515,7 +560,9 @@
             if (msg.includes("you are stupid") || msg.includes("u stupid"))
                 return "At least I don't write bugs like you 💀";
 
-            // BUTTON RESPONSES
+            // ===== BUTTON RESPONSES =====
+            
+            // ROAST button
             if (msg.includes("roast me") || msg.includes("roast")) {
                 let roasts = [
                     "🔥 I would roast you but I respect your feelings… just kidding 😈 Your WiFi is faster than your brain 💀😂",
@@ -529,6 +576,7 @@
                 return roasts[Math.floor(Math.random() * roasts.length)];
             }
 
+            // SAVAGE button
             if (msg.includes("savage")) {
                 let savages = [
                     "😈 Your WiFi is weaker than your excuses!",
@@ -541,6 +589,7 @@
                 return savages[Math.floor(Math.random() * savages.length)];
             }
 
+            // JOKE button
             if (msg.includes("joke") || msg.includes("tell me a joke")) {
                 let jokes = [
                     "😂 Programmers hate nature because of bugs 🐞😂",
@@ -553,37 +602,6 @@
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
+            // HELP button
             if (msg.includes("help me") || msg.includes("help")) {
-                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• 🆘 HELP - This menu\n\n**TYPE:**\n• Math problems (2+2, 5*3, 10/2)\n• Homework help\n• Questions about AI, gravity\n• Anything!";
-            }
-
-            if (msg.includes("date")) {
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
-            }
-
-            if (msg.includes("time")) {
-                return "⏰ Current time is " + new Date().toLocaleTimeString();
-            }
-
-            if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey"))
-                return "Hello 😎 How can I help you?";
-
-            if (msg.includes("bye") || msg.includes("goodbye"))
-                return "Bye bro 😎 Come back for more!";
-
-            return "Tell me more, ask a question, or type a math problem like 2+2! 👀";
-        }
-
-        // ===== EVENT LISTENERS =====
-        send.addEventListener("click", sendMessage);
-
-        input.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        // ===== WELCOME MESSAGE =====
-        win
+                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• �
