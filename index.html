@@ -45,41 +45,41 @@
         /* Header */
         .chat-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
+            padding: 15px 20px;
             color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .chat-header h2 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        .header-text h2 {
+            font-size: 22px;
+            margin-bottom: 3px;
         }
 
-        .chat-header p {
-            font-size: 14px;
+        .header-text p {
+            font-size: 13px;
             opacity: 0.9;
         }
 
         /* Dark Mode Button */
-        .dark-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
+        .dark-mode-btn {
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
             padding: 8px 16px;
             color: white;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: bold;
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .dark-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .dark-mode-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
         }
 
         /* Messages Area */
@@ -170,7 +170,7 @@
             30% { transform: translateY(-8px); }
         }
 
-        /* Quick Buttons - 6 BUTTONS */
+        /* Quick Buttons */
         .quick-buttons {
             padding: 15px;
             background: white;
@@ -196,7 +196,7 @@
             cursor: pointer;
             transition: transform 0.2s;
             flex: 1;
-            min-width: 70px;
+            min-width: 80px;
         }
 
         .joke-btn {
@@ -316,12 +316,12 @@
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            <div>
+            <div class="header-text">
                 <h2>ChatBot 🤖</h2>
                 <p>Made by Aarav</p>
             </div>
-            <!-- Dark Mode Button -->
-            <button class="dark-btn" id="darkModeBtn">
+            <!-- SIMPLE DARK MODE BUTTON -->
+            <button class="dark-mode-btn" id="darkModeToggle">
                 <span id="darkIcon">🌙</span>
                 <span id="darkText">Dark</span>
             </button>
@@ -331,7 +331,7 @@
             <!-- Messages appear here -->
         </div>
 
-        <!-- 6 BUTTONS: JOKE, HELP, ROAST, SAVAGE, DATE, TIME -->
+        <!-- 6 BUTTONS -->
         <div class="quick-buttons">
             <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
             <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
@@ -352,12 +352,12 @@
         const messages = document.getElementById("messages");
         const input = document.getElementById("input");
         const send = document.getElementById("send");
-        const darkModeBtn = document.getElementById("darkModeBtn");
+        const darkModeToggle = document.getElementById("darkModeToggle");
         const darkIcon = document.getElementById("darkIcon");
         const darkText = document.getElementById("darkText");
 
         // ===== DARK MODE TOGGLE =====
-        darkModeBtn.addEventListener("click", function() {
+        darkModeToggle.addEventListener("click", function() {
             document.body.classList.toggle("dark-mode");
             document.querySelector(".chat-container").classList.toggle("dark-mode");
             
@@ -427,24 +427,22 @@
             sendMessage();
         }
 
-        // ===== BOT BRAIN WITH ALL YOUR RESPONSES =====
+        // ===== BOT BRAIN =====
         function getBotReply(msg) {
             msg = msg.toLowerCase();
 
-            // ===== MATH PROBLEM SOLVER =====
+            // MATH SOLVER
             try {
                 if (/^[0-9+\-*/().%\s]+$/.test(msg) && 
                     (msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')'))) {
-                    
                     let result = Function('"use strict";return (' + msg + ')')();
-                    
                     if (typeof result === 'number' && !isNaN(result)) {
                         return "🧮 " + msg + " = " + result;
                     }
                 }
             } catch (error) {}
 
-            // ===== YOUR ORIGINAL RESPONSES =====
+            // YOUR RESPONSES
             if (msg.includes("i am sad") || msg.includes("i'm sad") || msg.includes("im sad"))
                 return "Don't be sad ❤️ You are learning coding which is awesome 😎";
 
@@ -487,7 +485,6 @@
             if (msg.includes("dream"))
                 return "Dream big, code bigger 🚀";
 
-            // Homework Help
             if (msg.includes("homework"))
                 return "Sure 😎 Tell me the subject — Math, Science, English, or others?";
 
@@ -518,9 +515,7 @@
             if (msg.includes("you are stupid") || msg.includes("u stupid"))
                 return "At least I don't write bugs like you 💀";
 
-            // ===== BUTTON RESPONSES =====
-            
-            // ROAST button
+            // BUTTON RESPONSES
             if (msg.includes("roast me") || msg.includes("roast")) {
                 let roasts = [
                     "🔥 I would roast you but I respect your feelings… just kidding 😈 Your WiFi is faster than your brain 💀😂",
@@ -534,7 +529,6 @@
                 return roasts[Math.floor(Math.random() * roasts.length)];
             }
 
-            // SAVAGE button
             if (msg.includes("savage")) {
                 let savages = [
                     "😈 Your WiFi is weaker than your excuses!",
@@ -547,7 +541,6 @@
                 return savages[Math.floor(Math.random() * savages.length)];
             }
 
-            // JOKE button
             if (msg.includes("joke") || msg.includes("tell me a joke")) {
                 let jokes = [
                     "😂 Programmers hate nature because of bugs 🐞😂",
@@ -560,27 +553,37 @@
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
-            // HELP button
             if (msg.includes("help me") || msg.includes("help")) {
                 return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• 🆘 HELP - This menu\n\n**TYPE:**\n• Math problems (2+2, 5*3, 10/2)\n• Homework help\n• Questions about AI, gravity\n• Anything!";
             }
 
-            // DATE button
             if (msg.includes("date")) {
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                 return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
             }
 
-            // TIME button
             if (msg.includes("time")) {
                 return "⏰ Current time is " + new Date().toLocaleTimeString();
             }
 
-            // Regular responses
             if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey"))
                 return "Hello 😎 How can I help you?";
 
             if (msg.includes("bye") || msg.includes("goodbye"))
                 return "Bye bro 😎 Come back for more!";
 
-            return "Tell me more, ask a question, or type a math problem li
+            return "Tell me more, ask a question, or type a math problem like 2+2! 👀";
+        }
+
+        // ===== EVENT LISTENERS =====
+        send.addEventListener("click", sendMessage);
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // ===== WELCOME MESSAGE =====
+        win
