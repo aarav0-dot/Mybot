@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2196F3">
     <title>ChatBot 🤖</title>
     <style>
         * {
@@ -23,6 +24,35 @@
 
         body.dark-mode {
             background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+        }
+
+        /* SPLASH SCREEN */
+        #splash {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00f2ff;
+            font-size: 32px;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        #splash.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #splash h1 {
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #00f2ff; }
+            to { text-shadow: 0 0 30px #00f2ff, 0 0 50px #00f2ff; }
         }
 
         .chat-container {
@@ -310,17 +340,25 @@
             .quick-btn {
                 min-width: calc(33.33% - 10px);
             }
+            #splash h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body id="body">
+    <!-- SPLASH SCREEN -->
+    <div id="splash">
+        <h1>AARAV AI 🤖</h1>
+    </div>
+
     <div class="chat-container" id="chatContainer">
         <div class="chat-header">
             <div>
                 <h2>ChatBot 🤖</h2>
                 <p>Made by Aarav</p>
             </div>
-            <button class="dark-mode-btn" id="darkModeBtn" onclick="toggleDarkMode()">
+            <button class="dark-mode-btn" id="darkModeBtn">
                 <span id="darkIcon">🌙</span>
                 <span id="darkText">Dark</span>
             </button>
@@ -329,8 +367,6 @@
         <div id="messages" class="messages">
             <!-- Messages appear here -->
         </div>
-        <head><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#2196F3"></head>
 
         <!-- 6 BUTTONS: JOKE, HELP, ROAST, SAVAGE, DATE, TIME -->
         <div class="quick-buttons">
@@ -349,6 +385,18 @@
     </div>
 
     <script>
+        // ===== SPLASH SCREEN =====
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById("splash").classList.add('fade-out');
+                setTimeout(function() {
+                    document.getElementById("splash").style.display = "none";
+                    // Show welcome message after splash
+                    createMessage("Hello! I am ChatBot 🤖", "bot");
+                }, 500);
+            }, 2500);
+        };
+
         // ===== DARK MODE FUNCTION =====
         function toggleDarkMode() {
             const body = document.getElementById('body');
@@ -384,13 +432,18 @@
         const messages = document.getElementById("messages");
         const input = document.getElementById("input");
         const send = document.getElementById("send");
+        const darkModeBtn = document.getElementById("darkModeBtn");
 
-        // ===== EVENTS =====
+        // ===== EVENT LISTENERS =====
         send.addEventListener("click", sendMessage);
-
+        darkModeBtn.addEventListener("click", toggleDarkMode);
+        
         input.addEventListener("keydown", (e) => {
             if (e.key === "Enter") sendMessage();
         });
+
+        // Load dark mode preference
+        loadDarkMode();
 
         // ===== QUICK MESSAGE FUNCTION =====
         function sendQuickMessage(text) {
@@ -562,7 +615,7 @@
                     "🔥 You debug by hoping the error gets scared and leaves",
                     "🔥 Your code works the same way as your life plans — sometimes, rarely 💀",
                 ];
-                return roasts[Math.floor(Math.random() * roasts.length)];
+                return roasts [Math.floor(Math.random() * roasts.length)];
             }
 
             // SAVAGE button
@@ -574,6 +627,10 @@
                     "😈 I'd explain it to you, but I left my crayons at home!",
                     "😈 Your code has more bugs than a 90's computer lab!",
                     "😈 If you were any more basic, you'd be a crayon color!",
+                    "😈 Even your browser history is embarrassed of you!",
+                    "😈 Your mindset is like dial-up in a 5G world!",
+                    "😈 You're not a complete idiot, some parts are missing!",
+                    "😈 I've seen more life in a dead battery!",
                 ];
                 return savages[Math.floor(Math.random() * savages.length)];
             }
@@ -587,42 +644,34 @@
                     "😂 What do you call a bear with no teeth? A gummy bear!",
                     "😂 Parallel lines have so much in common… Too bad they never meet!",
                     "😂 I tried to make coffee but I only know JavaScript!",
+                    "😂 Why was the computer cold? It left its Windows open!",
+                    "😂 What's a computer's favorite beat? An algorithm!",
+                    "😂 Why did the programmer quit his job? He didn't get arrays!",
                 ];
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
             // HELP button
             if (msg.includes("help me") || msg.includes("help")) {
-                return "🆘 **I GOT YOU!** 😎\n\n**BUTTONS:**\n• 😂 JOKE - Funny jokes\n• 🔥 ROAST - Get roasted\n• 😈 SAVAGE - Savage mode\n• 📅 DATE - Today's date\n• ⏰ TIME - Current time\n• 🆘 HELP - This menu\n\n**TYPE:**\n• Math problems (2+2, 5*3, 10/2)\n• Homework help\n• Questions about AI, gravity\n• Anything!";
+                return "🆘 **I can help you with:**\n• Math problems (e.g., 2+2, 5*3)\n• Jokes, roasts, savage mode\n• Date and Time\n• Homework (Math, Science, English)\n• General questions about AI, gravity, etc.\n• Just chat with me! 😊";
             }
 
             // DATE button
             if (msg.includes("date")) {
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return "📅 Today is " + new Date().toLocaleDateString(undefined, options);
+                let today = new Date();
+                let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return "📅 Today is " + today.toLocaleDateString('en-US', options);
             }
 
             // TIME button
             if (msg.includes("time")) {
-                return "⏰ Current time is " + new Date().toLocaleTimeString();
+                let now = new Date();
+                return "⏰ Current time is " + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             }
 
-            // Regular responses
-            if (msg.includes("hi") || msg.includes("hello") || msg.includes("hey"))
-                return "Hello 😎 How can I help you?";
-
-            if (msg.includes("bye") || msg.includes("goodbye"))
-                return "Bye bro 😎 Come back for more!";
-
-            return "Tell me more, ask a question, or type a math problem like 2+2! 👀";
+            // Default response
+            return "Tell me more 👀 I can tell jokes, roast you, help with homework, or solve math problems!";
         }
-
-        // Welcome message and load dark mode
-        window.onload = function() {
-            createMessage("Hello! I'm Aarav's chatbot 🤖", "bot");
-            loadDarkMode();
-            input.focus();
-        };
     </script>
 </body>
 </html>
