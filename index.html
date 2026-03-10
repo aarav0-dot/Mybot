@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2196F3">
-    <title>ChatBot 🤖</title>
+    <title>ChatBot 🤖 + Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -30,7 +30,7 @@
         #splash {
             position: fixed;
             width: 100%;
-            height: 200%;
+            height: 100%;
             background: black;
             display: flex;
             justify-content: center;
@@ -55,25 +55,25 @@
             to { text-shadow: 0 0 30px #00f2ff, 0 0 50px #00f2ff; }
         }
 
-        .chat-container {
+        /* Main Container */
+        .main-container {
             width: 90%;
             max-width: 500px;
             height: 80vh;
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
             transition: background 0.3s ease;
+            position: relative;
         }
 
-        .chat-container.dark-mode {
+        .main-container.dark-mode {
             background: #1e1e2e;
         }
 
         /* Header */
-        .chat-header {
+        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 15px 20px;
             color: white;
@@ -82,14 +82,43 @@
             align-items: center;
         }
 
-        .chat-header h2 {
+        .header h2 {
             font-size: 24px;
             margin-bottom: 5px;
         }
 
-        .chat-header p {
+        .header p {
             font-size: 14px;
             opacity: 0.9;
+        }
+
+        /* View Toggle Buttons */
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 8px 16px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         /* Dark Mode Button */
@@ -106,11 +135,55 @@
             align-items: center;
             gap: 5px;
             transition: all 0.3s;
+            margin-left: 10px;
         }
 
         .dark-mode-btn:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
+        }
+
+        /* Header Controls */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Views Container */
+        .views-container {
+            height: calc(100% - 80px);
+            position: relative;
+        }
+
+        /* Chat View */
+        .chat-view {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-view.hidden {
+            display: none;
+        }
+
+        /* Dashboard View */
+        .dashboard-view {
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f7fb;
+            transition: background 0.3s ease;
+            display: none;
+        }
+
+        .dashboard-view.visible {
+            display: block;
+        }
+
+        .main-container.dark-mode .dashboard-view {
+            background: #151521;
         }
 
         /* Messages Area */
@@ -122,7 +195,7 @@
             transition: background 0.3s ease;
         }
 
-        .chat-container.dark-mode .messages {
+        .main-container.dark-mode .messages {
             background: #151521;
         }
 
@@ -164,7 +237,7 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .chat-container.dark-mode .bot {
+        .main-container.dark-mode .bot {
             background: #2d2d44;
             color: #e0e0e0;
         }
@@ -184,7 +257,7 @@
             animation: typing 1.4s infinite;
         }
 
-        .chat-container.dark-mode .typing span {
+        .main-container.dark-mode .typing span {
             background: #aaa;
         }
 
@@ -201,7 +274,7 @@
             30% { transform: translateY(-8px); }
         }
 
-        /* Quick Buttons - 6 BUTTONS */
+        /* Quick Buttons */
         .quick-buttons {
             padding: 15px;
             background: white;
@@ -213,7 +286,7 @@
             transition: background 0.3s ease;
         }
 
-        .chat-container.dark-mode .quick-buttons {
+        .main-container.dark-mode .quick-buttons {
             background: #1e1e2e;
             border-top: 1px solid #444;
         }
@@ -230,43 +303,15 @@
             min-width: 90px;
         }
 
-        .joke-btn {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-            color: #333;
-        }
+        .joke-btn { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #333; }
+        .help-btn { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); color: #333; }
+        .roast-btn { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); color: white; }
+        .savage-btn { background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%); color: white; }
+        .date-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: #333; }
+        .time-btn { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #333; }
 
-        .help-btn {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-            color: #333;
-        }
-
-        .roast-btn {
-            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
-            color: white;
-        }
-
-        .savage-btn {
-            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
-            color: white;
-        }
-
-        .date-btn {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: #333;
-        }
-
-        .time-btn {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: #333;
-        }
-
-        .quick-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .quick-btn:active {
-            transform: scale(0.95);
-        }
+        .quick-btn:hover { transform: scale(1.05); }
+        .quick-btn:active { transform: scale(0.95); }
 
         /* Input Area */
         .input-area {
@@ -278,7 +323,7 @@
             transition: background 0.3s ease;
         }
 
-        .chat-container.dark-mode .input-area {
+        .main-container.dark-mode .input-area {
             background: #1e1e2e;
             border-top: 1px solid #444;
         }
@@ -293,19 +338,15 @@
             transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
-        #input:focus {
-            border-color: #667eea;
-        }
+        #input:focus { border-color: #667eea; }
 
-        .chat-container.dark-mode #input {
+        .main-container.dark-mode #input {
             background: #2d2d44;
             border-color: #444;
             color: white;
         }
 
-        .chat-container.dark-mode #input::placeholder {
-            color: #888;
-        }
+        .main-container.dark-mode #input::placeholder { color: #888; }
 
         #send {
             padding: 12px 24px;
@@ -319,29 +360,226 @@
             transition: transform 0.2s;
         }
 
-        #send:hover {
-            transform: scale(1.05);
+        #send:hover { transform: scale(1.05); }
+        #send:active { transform: scale(0.95); }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 10px;
         }
 
-        #send:active {
-            transform: scale(0.95);
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        /* Mobile Responsive */
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: background 0.3s ease;
+        }
+
+        .main-container.dark-mode .stat-card {
+            background: #2d2d44;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .main-container.dark-mode .stat-header {
+            color: #aaa;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .main-container.dark-mode .stat-value {
+            color: white;
+        }
+
+        .stat-change {
+            color: #4caf50;
+            font-size: 13px;
+        }
+
+        /* Chart Card */
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .main-container.dark-mode .chart-card {
+            background: #2d2d44;
+            color: white;
+        }
+
+        .chart-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .main-container.dark-mode .chart-card h3 {
+            color: white;
+        }
+
+        .chart-placeholder {
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.3s;
+            min-width: 20px;
+        }
+
+        /* Progress Bars */
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .main-container.dark-mode .progress-header {
+            color: #aaa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eef2f6;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .main-container.dark-mode .progress-bar {
+            background: #444;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        /* Activity List */
+        .activity-list {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .main-container.dark-mode .activity-list {
+            background: #2d2d44;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .main-container.dark-mode .activity-item {
+            border-bottom: 1px solid #444;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .main-container.dark-mode .activity-name {
+            color: white;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .main-container.dark-mode .activity-time {
+            color: #aaa;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-badge.online {
+            background: #e8f5e8;
+            color: #4caf50;
+        }
+
+        .main-container.dark-mode .status-badge.online {
+            background: #1e3a1e;
+        }
+
+        /* Responsive */
         @media (max-width: 600px) {
-            .chat-container {
+            .main-container {
                 width: 100%;
                 height: 100vh;
                 border-radius: 0;
             }
-            .message {
-                max-width: 85%;
-            }
-            .quick-btn {
-                min-width: calc(33.33% - 10px);
-            }
-            #splash h1 {
-                font-size: 24px;
+            
+            .toggle-btn {
+                padding: 6px 12px;
+                font-size: 12px;
             }
         }
     </style>
@@ -352,35 +590,132 @@
         <h1>Made by AARAV🤖</h1>
     </div>
 
-    <div class="chat-container" id="chatContainer">
-        <div class="chat-header">
+    <div class="main-container" id="mainContainer">
+        <!-- Header -->
+        <div class="header">
             <div>
-                <h2>ChatBot 🤖</h2>
-                <p>Made by Aarav</p>
+                <h2 id="headerTitle">ChatBot 🤖</h2>
+                <p id="headerSubtitle">Made by Aarav</p>
             </div>
-            <button class="dark-mode-btn" id="darkModeBtn">
-                <span id="darkIcon">🌙</span>
-                <span id="darkText">Dark</span>
-            </button>
+            <div class="header-controls">
+                <div class="view-toggle">
+                    <button class="toggle-btn active" id="chatViewBtn" onclick="switchView('chat')">💬 Chat</button>
+                    <button class="toggle-btn" id="dashboardViewBtn" onclick="switchView('dashboard')">📊 Dashboard</button>
+                </div>
+                <button class="dark-mode-btn" id="darkModeBtn">
+                    <span id="darkIcon">🌙</span>
+                </button>
+            </div>
         </div>
 
-        <div id="messages" class="messages">
-            <!-- Messages appear here -->
-        </div>
+        <!-- Views Container -->
+        <div class="views-container">
+            <!-- Chat View -->
+            <div class="chat-view" id="chatView">
+                <div id="messages" class="messages">
+                    <!-- Messages appear here -->
+                </div>
 
-        <!-- 6 BUTTONS: JOKE, HELP, ROAST, SAVAGE, DATE, TIME -->
-        <div class="quick-buttons">
-            <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
-            <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
-            <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">🔥 ROAST</button>
-            <button class="quick-btn savage-btn" onclick="sendQuickMessage('savage')">😈 SAVAGE</button>
-            <button class="quick-btn date-btn" onclick="sendQuickMessage('date')">📅 DATE</button>
-            <button class="quick-btn time-btn" onclick="sendQuickMessage('time')">⏰ TIME</button>
-        </div>
+                <!-- 6 BUTTONS -->
+                <div class="quick-buttons">
+                    <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
+                    <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
+                    <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">🔥 ROAST</button>
+                    <button class="quick-btn savage-btn" onclick="sendQuickMessage('savage')">😈 SAVAGE</button>
+                    <button class="quick-btn date-btn" onclick="sendQuickMessage('date')">📅 DATE</button>
+                    <button class="quick-btn time-btn" onclick="sendQuickMessage('time')">⏰ TIME</button>
+                </div>
 
-        <div class="input-area">
-            <input type="text" id="input" placeholder="Type your message or math problem (e.g., 2+2)..." autocomplete="off">
-            <button id="send">Send</button>
+                <div class="input-area">
+                    <input type="text" id="input" placeholder="Type your message..." autocomplete="off">
+                    <button id="send">Send</button>
+                </div>
+            </div>
+
+            <!-- Dashboard View -->
+            <div class="dashboard-view" id="dashboardView">
+                <div class="dashboard-content">
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Total Messages</span>
+                                <span class="stat-change" id="messageChange">+0%</span>
+                            </div>
+                            <div class="stat-value" id="totalMessages">0</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span>Session Time</span>
+                                <span class="stat-change" id="sessionChange">0m</span>
+                            </div>
+                            <div class="stat-value" id="sessionTime">0s</div>
+                        </div>
+                    </div>
+
+                    <!-- Message Activity Chart -->
+                    <div class="chart-card">
+                        <h3>Message Activity</h3>
+                        <div class="chart-placeholder" id="activityChart">
+                            <div class="bar" style="height: 60px;"></div>
+                            <div class="bar" style="height: 80px;"></div>
+                            <div class="bar" style="height: 100px;"></div>
+                            <div class="bar" style="height: 70px;"></div>
+                            <div class="bar" style="height: 120px;"></div>
+                            <div class="bar" style="height: 90px;"></div>
+                            <div class="bar" style="height: 110px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Message Types Distribution -->
+                    <div class="chart-card">
+                        <h3>Message Types</h3>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>Questions</span>
+                                <span id="questionsPercent">45%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="questionsBar" style="width: 45%;"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>Commands</span>
+                                <span id="commandsPercent">30%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="commandsBar" style="width: 30%;"></div>
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <span>Casual</span>
+                                <span id="casualPercent">25%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="casualBar" style="width: 25%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="activity-list">
+                        <h3 style="margin-bottom: 15px; color: #333;">Recent Activity</h3>
+                        <div id="recentActivity">
+                            <div class="activity-item">
+                                <div class="activity-icon">👤</div>
+                                <div class="activity-details">
+                                    <div class="activity-name">Welcome Message</div>
+                                    <div class="activity-time">Just now</div>
+                                </div>
+                                <span class="status-badge online">Bot</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -393,27 +728,60 @@
                     document.getElementById("splash").style.display = "none";
                     // Show welcome message after splash
                     createMessage("Hello! I am ChatBot 🤖", "bot");
+                    
+                    // Initialize dashboard
+                    updateDashboardStats();
+                    
+                    // Start session timer
+                    startSessionTimer();
                 }, 500);
             }, 2500);
         };
 
+        // ===== VIEW SWITCHING =====
+        function switchView(view) {
+            const chatView = document.getElementById('chatView');
+            const dashboardView = document.getElementById('dashboardView');
+            const chatBtn = document.getElementById('chatViewBtn');
+            const dashboardBtn = document.getElementById('dashboardViewBtn');
+            const headerTitle = document.getElementById('headerTitle');
+            const headerSubtitle = document.getElementById('headerSubtitle');
+            
+            if (view === 'chat') {
+                chatView.classList.remove('hidden');
+                dashboardView.classList.remove('visible');
+                chatBtn.classList.add('active');
+                dashboardBtn.classList.remove('active');
+                headerTitle.textContent = 'ChatBot 🤖';
+                headerSubtitle.textContent = 'Made by Aarav';
+            } else {
+                chatView.classList.add('hidden');
+                dashboardView.classList.add('visible');
+                dashboardBtn.classList.add('active');
+                chatBtn.classList.remove('active');
+                headerTitle.textContent = 'Dashboard 📊';
+                headerSubtitle.textContent = 'Chat Analytics';
+                
+                // Refresh dashboard data when switching to it
+                updateDashboardStats();
+                updateChart();
+            }
+        }
+
         // ===== DARK MODE FUNCTION =====
         function toggleDarkMode() {
             const body = document.getElementById('body');
-            const container = document.getElementById('chatContainer');
+            const container = document.getElementById('mainContainer');
             const darkIcon = document.getElementById('darkIcon');
-            const darkText = document.getElementById('darkText');
             
             body.classList.toggle('dark-mode');
             container.classList.toggle('dark-mode');
             
             if (body.classList.contains('dark-mode')) {
                 darkIcon.textContent = '☀️';
-                darkText.textContent = 'Light';
                 localStorage.setItem('darkMode', 'enabled');
             } else {
                 darkIcon.textContent = '🌙';
-                darkText.textContent = 'Dark';
                 localStorage.setItem('darkMode', 'disabled');
             }
         }
@@ -422,9 +790,8 @@
         function loadDarkMode() {
             if (localStorage.getItem('darkMode') === 'enabled') {
                 document.getElementById('body').classList.add('dark-mode');
-                document.getElementById('chatContainer').classList.add('dark-mode');
+                document.getElementById('mainContainer').classList.add('dark-mode');
                 document.getElementById('darkIcon').textContent = '☀️';
-                document.getElementById('darkText').textContent = 'Light';
             }
         }
 
@@ -433,6 +800,16 @@
         const input = document.getElementById("input");
         const send = document.getElementById("send");
         const darkModeBtn = document.getElementById("darkModeBtn");
+
+        // ===== DASHBOARD VARIABLES =====
+        let messageCount = 0;
+        let sessionSeconds = 0;
+        let sessionInterval;
+        let messageTypes = {
+            questions: 0,
+            commands: 0,
+            casual: 0
+        };
 
         // ===== EVENT LISTENERS =====
         send.addEventListener("click", sendMessage);
@@ -444,6 +821,21 @@
 
         // Load dark mode preference
         loadDarkMode();
+
+        // ===== SESSION TIMER =====
+        function startSessionTimer() {
+            sessionInterval = setInterval(() => {
+                sessionSeconds++;
+                updateSessionTime();
+            }, 1000);
+        }
+
+        function updateSessionTime() {
+            const minutes = Math.floor(sessionSeconds / 60);
+            const seconds = sessionSeconds % 60;
+            document.getElementById('sessionTime').textContent = `${minutes}m ${seconds}s`;
+            document.getElementById('sessionChange').textContent = `${minutes}m`;
+        }
 
         // ===== QUICK MESSAGE FUNCTION =====
         function sendQuickMessage(text) {
@@ -459,13 +851,98 @@
             createMessage(text, "user");
             input.value = "";
 
+            // Update message count
+            messageCount++;
+            updateMessageStats(text);
+
             showTyping();
 
             setTimeout(() => {
                 removeTyping();
                 const reply = getBotReply(text);
                 createMessage(reply, "bot");
+                
+                // Update message count for bot response
+                messageCount++;
+                updateMessageStats(reply, true);
+                
+                // Add to recent activity
+                addToRecentActivity(reply, 'Bot');
             }, 1200);
+        }
+
+        // ===== UPDATE MESSAGE STATS =====
+        function updateMessageStats(text, isBot = false) {
+            // Update total messages
+            document.getElementById('totalMessages').textContent = messageCount;
+            document.getElementById('messageChange').innerHTML = '+' + Math.floor(Math.random() * 20) + '%';
+            
+            // Categorize message
+            if (text.includes('?') || text.toLowerCase().includes('what') || text.toLowerCase().includes('how') || text.toLowerCase().includes('why')) {
+                messageTypes.questions++;
+            } else if (text.toLowerCase().includes('joke') || text.toLowerCase().includes('roast') || text.toLowerCase().includes('savage') || text.toLowerCase().includes('date') || text.toLowerCase().includes('time')) {
+                messageTypes.commands++;
+            } else {
+                messageTypes.casual++;
+            }
+            
+            // Calculate percentages
+            const total = messageTypes.questions + messageTypes.commands + messageTypes.casual;
+            if (total > 0) {
+                const questionsPercent = Math.round((messageTypes.questions / total) * 100);
+                const commandsPercent = Math.round((messageTypes.commands / total) * 100);
+                const casualPercent = 100 - questionsPercent - commandsPercent;
+                
+                document.getElementById('questionsPercent').textContent = questionsPercent + '%';
+                document.getElementById('commandsPercent').textContent = commandsPercent + '%';
+                document.getElementById('casualPercent').textContent = casualPercent + '%';
+                
+                document.getElementById('questionsBar').style.width = questionsPercent + '%';
+                document.getElementById('commandsBar').style.width = commandsPercent + '%';
+                document.getElementById('casualBar').style.width = casualPercent + '%';
+            }
+            
+            // Update chart randomly
+            updateChart();
+        }
+
+        // ===== UPDATE CHART =====
+        function updateChart() {
+            const bars = document.querySelectorAll('#activityChart .bar');
+            bars.forEach(bar => {
+                const newHeight = Math.floor(Math.random() * 80) + 40;
+                bar.style.height = newHeight + 'px';
+            });
+        }
+
+        // ===== ADD TO RECENT ACTIVITY =====
+        function addToRecentActivity(message, sender) {
+            const activityDiv = document.getElementById('recentActivity');
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            const newActivity = document.createElement('div');
+            newActivity.className = 'activity-item';
+            newActivity.innerHTML = `
+                <div class="activity-icon">${sender === 'Bot' ? '🤖' : '👤'}</div>
+                <div class="activity-details">
+                    <div class="activity-name">${sender}</div>
+                    <div class="activity-time">${time}</div>
+                </div>
+                <span class="status-badge online">${message.substring(0, 15)}${message.length > 15 ? '...' : ''}</span>
+            `;
+            
+            activityDiv.insertBefore(newActivity, activityDiv.firstChild);
+            
+            // Keep only last 5 activities
+            while (activityDiv.children.length > 5) {
+                activityDiv.removeChild(activityDiv.lastChild);
+            }
+        }
+
+        // ===== UPDATE DASHBOARD STATS =====
+        function updateDashboardStats() {
+            document.getElementById('totalMessages').textContent = messageCount;
+            updateSessionTime();
         }
 
         // ===== CREATE MESSAGE =====
@@ -476,6 +953,11 @@
 
             messages.appendChild(div);
             messages.scrollTop = messages.scrollHeight;
+            
+            // Add to recent activity
+            if (sender === 'user') {
+                addToRecentActivity(text, 'You');
+            }
         }
 
         // ===== TYPING ANIMATION =====
@@ -520,16 +1002,13 @@
                 console.log("Math error:", error);
             }
 
-            // ===== YOUR ORIGINAL RESPONSES =====
+            // ===== RESPONSES =====
             if (msg.includes("i am sad") || msg.includes("i'm sad") || msg.includes("im sad"))
                 return "Don't be sad ❤️ You are learning coding which is awesome 😎";
             
             if (msg.includes("hello") || msg.includes("hi"))
                 return "Hi,i am chat bot how can i help you!";
             
-            if (msg.includes("hi"))
-                return "Hi,i am chat bot how can i help you!";
-
             if (msg.includes("yooo") || msg.includes("yo"))
                 return "yooo, bro how are you 😊😊😊";
 
@@ -542,8 +1021,8 @@
             if (msg.includes("im fine thank you") || msg.includes("i'm fine thank you"))
                 return "😀😀";
             
-             if (msg.includes("wsp chat") || msg.includes("broo"))
-                 return "yooo,my nigha shreyash";
+            if (msg.includes("wsp chat") || msg.includes("broo"))
+                return "yooo,my nigha shreyash";
    
             if (msg.includes("sing"))
                 return "🎵 ninja ninja ninja ninja i am little monkey ninja";
@@ -603,8 +1082,6 @@
             if (msg.includes("you are stupid") || msg.includes("u stupid"))
                 return "At least I don't write bugs like you 💀";
 
-            // ===== BUTTON RESPONSES =====
-            
             // ROAST button
             if (msg.includes("roast me") || msg.includes("roast")) {
                 let roasts = [
@@ -612,14 +1089,9 @@
                     "🔥 Your brain is like your WiFi - weak connection!",
                     "🔥 If I had a dollar for every brain cell you have, I'd have $0!",
                     "🔥 You're not stupid, you're just cursed by mediocrity!",
-                    "🔥 I'd roast you but my code doesn't support that much stupidity!",
                     "🔥 You're proof that evolution can go in reverse!",
                     "🔥 You're so slow, even Google Maps can't find your brain!",
-                    "🔥 Your logic is like broken WiFi — keeps disconnecting 💀", 
-                    "🔥 I’ve seen stronger connections between two random WiFi routers than your logic",
-                    "🔥 Even my bugs have better teamwork than your ideas",
-                    "🔥 You debug by hoping the error gets scared and leaves",
-                    "🔥 Your code works the same way as your life plans — sometimes, rarely 💀",
+                    "🔥 Your logic is like broken WiFi — keeps disconnecting 💀"
                 ];
                 return roasts [Math.floor(Math.random() * roasts.length)];
             }
@@ -631,12 +1103,7 @@
                     "😈 You're so basic, even your profile picture judges you!",
                     "😈 You have the right to remain silent because anything you say will be wrong!",
                     "😈 I'd explain it to you, but I left my crayons at home!",
-                    "😈 Your code has more bugs than a 90's computer lab!",
-                    "😈 If you were any more basic, you'd be a crayon color!",
-                    "😈 Even your browser history is embarrassed of you!",
-                    "😈 Your mindset is like dial-up in a 5G world!",
-                    "😈 You're not a complete idiot, some parts are missing!",
-                    "😈 I've seen more life in a dead battery!",
+                    "😈 Your code has more bugs than a 90's computer lab!"
                 ];
                 return savages[Math.floor(Math.random() * savages.length)];
             }
@@ -647,32 +1114,26 @@
                     "😂 Programmers hate nature because of bugs 🐞😂",
                     "😂 Why do programmers prefer dark mode? Light attracts bugs!",
                     "😂 Why don't scientists trust atoms? They make up everything!",
-                    "😂 What do you call a bear with no teeth? A gummy bear!",
-                    "😂 Parallel lines have so much in common… Too bad they never meet!",
-                    "😂 I tried to make coffee but I only know JavaScript!",
-                    "😂 Why was the computer cold? It left its Windows open!",
-                    "😂 What's a computer's favorite beat? An algorithm!",
-                    "😂 Why did the programmer quit his job? He didn't get arrays!",
+                    "😂 What do you call a bear with no teeth? A gummy bear!"
                 ];
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
             // HELP button
             if (msg.includes("help me") || msg.includes("help")) {
-                return "🆘 **I can help you with:**\n• Math problems (e.g., 2+2, 5*3)\n• Jokes, roasts, savage mode\n• Date and Time\n• Homework (Math, Science, English)\n• General questions about AI, gravity, etc.\n• Just chat with me! 😊";
+                return "🆘 I can help with:\n• Math problems (2+2, 5*3)\n• Jokes, roasts, savage mode\n• Date and Time\n• Homework help\n• General questions";
             }
 
             // DATE button
             if (msg.includes("date")) {
                 let today = new Date();
-                let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                return "📅 Today is " + today.toLocaleDateString('en-US', options);
+                return "📅 Today is " + today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             }
 
             // TIME button
             if (msg.includes("time")) {
                 let now = new Date();
-                return "⏰ Current time is " + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                return "⏰ Current time is " + now.toLocaleTimeString();
             }
 
             // Default response
