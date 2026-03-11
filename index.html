@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2196F3">
-    <title>ChatBot 🤖</title>
+    <title>ChatBot 🤖 </title>
     <style>
         * {
             margin: 0;
@@ -248,7 +248,7 @@
             background: #f8f9fa;
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin: 15px 20px;
             text-align: center;
             font-size: 13px;
             color: #666;
@@ -263,6 +263,18 @@
 
         .demo-box strong {
             color: #667eea;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
         }
 
         /* Main Container (Chat) */
@@ -366,6 +378,8 @@
             padding: 20px;
             background: #f5f7fb;
             transition: background 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .main-container.dark-mode .messages {
@@ -619,6 +633,10 @@
             color: white;
         }
 
+        .stat-change {
+            color: #4caf50;
+        }
+
         .chart-card {
             background: #f8f9fa;
             padding: 20px;
@@ -651,6 +669,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 5px 5px 0 0;
             transition: height 0.3s;
+            min-width: 20px;
         }
 
         /* About Styles */
@@ -804,12 +823,15 @@
         <span id="darkText">Dark</span>
     </button>
 
-    <!-- Auth Container (Login/Register) - SHOW FIRST -->
+    <!-- Auth Container (Login/Register) -->
     <div class="auth-container" id="authContainer">
         <div class="auth-header">
             <h1>🤖</h1>
             <p>Login or Register to Chat</p>
         </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage"></div>
 
 
         <!-- Auth Tabs -->
@@ -818,7 +840,7 @@
             <div class="auth-tab" id="registerTab" onclick="switchAuthTab('register')">Register</div>
         </div>
 
-        <!-- Login Form - EMPTY FIELDS (you must type yourself) -->
+        <!-- Login Form -->
         <div class="auth-form active" id="loginForm">
             <div class="input-group">
                 <label>Username</label>
@@ -874,7 +896,7 @@
         </div>
     </div>
 
-    <!-- Main Container (Chat) - HIDDEN UNTIL LOGIN -->
+    <!-- Main Container (Chat) -->
     <div class="main-container" id="mainContainer">
         <div class="chat-header">
             <div>
@@ -883,9 +905,9 @@
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div class="view-toggle">
-                    <button class="toggle-btn active" onclick="showView('chat 💬')">Chat 💬</button>
-                    <button class="toggle-btn" onclick="showView('dashboard 📊')">Dashboard 📊</button>
-                    <button class="toggle-btn" onclick="showView('about 👍')">About 👍</button>
+                    <button class="toggle-btn active" onclick="showView('chat')">💬 Chat</button>
+                    <button class="toggle-btn" onclick="showView('dashboard')">📊 Dashboard</button>
+                    <button class="toggle-btn" onclick="showView('about')">ℹ️ About</button>
                 </div>
                 <div class="user-info">
                     <div class="user-avatar" id="userAvatar">U</div>
@@ -930,6 +952,18 @@
                         </div>
                         <div class="stat-value" id="sessionTime">0s</div>
                     </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Questions</span>
+                        </div>
+                        <div class="stat-value" id="questionsCount">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Commands</span>
+                        </div>
+                        <div class="stat-value" id="commandsCount">0</div>
+                    </div>
                 </div>
 
                 <div class="chart-card">
@@ -942,6 +976,13 @@
                         <div class="bar" style="height: 120px;"></div>
                         <div class="bar" style="height: 90px;"></div>
                         <div class="bar" style="height: 110px;"></div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Recent Activity</h3>
+                    <div id="recentActivity" style="color: #666; padding: 10px;">
+                        <p>No recent activity</p>
                     </div>
                 </div>
             </div>
@@ -973,23 +1014,43 @@
                         <div class="feature-icon">😂</div>
                         <div class="feature-text">
                             <h4>Joke Master</h4>
-                            <p>Hundreds of programming jokes</p>
+                            <p>Hundreds of programming jokes to make you laugh</p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon">🔥</div>
                         <div class="feature-text">
                             <h4>Roast Mode</h4>
-                            <p>Funny roasts and savage comebacks</p>
+                            <p>Get roasted with funny and savage comebacks</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">😈</div>
+                        <div class="feature-text">
+                            <h4>Savage Mode</h4>
+                            <p>Extra spicy responses for when you're feeling brave</p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon">🧮</div>
                         <div class="feature-text">
                             <h4>Math Solver</h4>
-                            <p>Solve equations instantly</p>
+                            <p>Solve equations instantly (try 2+2, 5*3, etc.)</p>
                         </div>
                     </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📚</div>
+                        <div class="feature-text">
+                            <h4>Homework Help</h4>
+                            <p>Help with Math, Science, English, and more</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon">📊</div>
+                    <h3>Dashboard Stats</h3>
+                    <p>Track your messages, session time, questions asked, and commands used in real-time!</p>
                 </div>
             </div>
         </div>
@@ -1029,12 +1090,9 @@
                 }, 500);
             }, 2500);
 
-            // Always show auth container first - NO AUTO LOGIN
+            // Always show auth container first
             document.getElementById('authContainer').style.display = 'block';
             document.getElementById('mainContainer').style.display = 'none';
-            
-            // Clear any saved login
-            localStorage.removeItem('currentUser');
         };
 
         // ===== DARK MODE =====
@@ -1076,6 +1134,9 @@
             document.getElementById('registerTab').classList.toggle('active', tab === 'register');
             document.getElementById('loginForm').classList.toggle('active', tab === 'login');
             document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+            
+            // Hide success message when switching tabs
+            document.getElementById('successMessage').style.display = 'none';
         }
 
         // ===== HANDLE LOGIN =====
@@ -1083,7 +1144,6 @@
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
             
-            // Don't auto-login - require user to type
             if (!username || !password) {
                 document.getElementById('loginError').textContent = 'Please enter username and password';
                 document.getElementById('loginError').style.display = 'block';
@@ -1094,7 +1154,6 @@
             
             if (user) {
                 const userData = { id: user.id, name: user.name, username: user.username };
-                // Save session
                 sessionStorage.setItem('currentUser', JSON.stringify(userData));
                 showMainApp(userData);
                 document.getElementById('loginError').style.display = 'none';
@@ -1112,6 +1171,7 @@
             const password = document.getElementById('registerPassword').value;
             const confirm = document.getElementById('registerConfirm').value;
             const error = document.getElementById('registerError');
+            const successMsg = document.getElementById('successMessage');
             
             if (!name || !username || !email || !password) {
                 error.textContent = 'All fields required';
@@ -1131,6 +1191,7 @@
                 return;
             }
             
+            // Create new user
             const newUser = {
                 id: users.length + 1,
                 name: name,
@@ -1140,16 +1201,25 @@
             };
             
             users.push(newUser);
-            saveUsers();
+            saveUsers(); // AUTO-SAVE to localStorage
             
-            error.style.color = '#4caf50';
-            error.textContent = 'Registration successful! Please login.';
-            error.style.display = 'block';
+            // Show success message
+            successMsg.textContent = '✅ Registration successful! Account saved. Please login.';
+            successMsg.style.display = 'block';
             
+            // Clear form
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('registerConfirm').value = '';
+            
+            error.style.display = 'none';
+            
+            // Switch to login tab after 2 seconds
             setTimeout(() => {
-                error.style.display = 'none';
-                error.style.color = '#f44336';
                 switchAuthTab('login');
+                successMsg.style.display = 'none';
             }, 2000);
         }
 
@@ -1171,8 +1241,12 @@
             // Reset counters
             messageCount = 0;
             sessionSeconds = 0;
+            questionsCount = 0;
+            commandsCount = 0;
             document.getElementById('totalMessages').textContent = '0';
             document.getElementById('sessionTime').textContent = '0s';
+            document.getElementById('questionsCount').textContent = '0';
+            document.getElementById('commandsCount').textContent = '0';
             
             // Start session timer
             startSessionTimer();
@@ -1187,13 +1261,6 @@
             // Clear login fields
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
-            
-            // Clear register fields
-            document.getElementById('registerName').value = '';
-            document.getElementById('registerUsername').value = '';
-            document.getElementById('registerEmail').value = '';
-            document.getElementById('registerPassword').value = '';
-            document.getElementById('registerConfirm').value = '';
             
             // Stop timer
             if (sessionInterval) clearInterval(sessionInterval);
@@ -1223,6 +1290,9 @@
         let messageCount = 0;
         let sessionSeconds = 0;
         let sessionInterval;
+        let questionsCount = 0;
+        let commandsCount = 0;
+        let recentMessages = [];
 
         send.addEventListener('click', sendMessage);
         input.addEventListener('keydown', (e) => {
@@ -1242,6 +1312,7 @@
             input.value = '';
 
             messageCount++;
+            updateMessageStats(text);
             document.getElementById('totalMessages').textContent = messageCount;
 
             showTyping();
@@ -1252,6 +1323,13 @@
                 createMessage(reply, 'bot');
                 messageCount++;
                 document.getElementById('totalMessages').textContent = messageCount;
+                
+                // Add to recent activity
+                recentMessages.unshift({
+                    type: 'Message',
+                    time: new Date().toLocaleTimeString()
+                });
+                if (recentMessages.length > 5) recentMessages.pop();
             }, 1200);
         }
 
@@ -1277,6 +1355,19 @@
             if (typing) typing.remove();
         }
 
+        function updateMessageStats(text) {
+            if (text.includes('?') || text.toLowerCase().includes('what') || 
+                text.toLowerCase().includes('how') || text.toLowerCase().includes('why')) {
+                questionsCount++;
+                document.getElementById('questionsCount').textContent = questionsCount;
+            } else if (text.toLowerCase().includes('joke') || text.toLowerCase().includes('roast') || 
+                       text.toLowerCase().includes('savage') || text.toLowerCase().includes('date') || 
+                       text.toLowerCase().includes('time')) {
+                commandsCount++;
+                document.getElementById('commandsCount').textContent = commandsCount;
+            }
+        }
+
         function startSessionTimer() {
             if (sessionInterval) clearInterval(sessionInterval);
             sessionInterval = setInterval(() => {
@@ -1292,6 +1383,16 @@
             bars.forEach(bar => {
                 bar.style.height = Math.floor(Math.random() * 100) + 40 + 'px';
             });
+            
+            // Update recent activity
+            const activityDiv = document.getElementById('recentActivity');
+            if (recentMessages.length > 0) {
+                let html = '';
+                recentMessages.forEach(msg => {
+                    html += `<p>• ${msg.type} at ${msg.time}</p>`;
+                });
+                activityDiv.innerHTML = html;
+            }
         }
 
         // ===== BOT REPLIES (YOUR ORIGINAL) =====
