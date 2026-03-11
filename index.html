@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2196F3">
-    <title>ChatBot 🤖 + Dashboard</title>
+    <title>ChatBot 🤖</title>
     <style>
         * {
             margin: 0;
@@ -55,76 +55,176 @@
             to { text-shadow: 0 0 30px #00f2ff, 0 0 50px #00f2ff; }
         }
 
-        /* Main Container */
-        .main-container {
+        /* Auth Container (Login/Register) */
+        .auth-container {
             width: 90%;
-            max-width: 500px;
-            height: 80vh;
+            max-width: 400px;
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             overflow: hidden;
             transition: background 0.3s ease;
-            position: relative;
+            animation: slideUp 0.5s ease;
         }
 
-        .main-container.dark-mode {
+        .auth-container.dark-mode {
             background: #1e1e2e;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 15px 20px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .header h2 {
-            font-size: 24px;
+        .auth-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 48px;
             margin-bottom: 5px;
         }
 
-        .header p {
+        .auth-header p {
             font-size: 14px;
             opacity: 0.9;
         }
 
-        /* View Toggle Buttons */
-        .view-toggle {
+        /* Auth Tabs */
+        .auth-tabs {
             display: flex;
-            gap: 10px;
+            border-bottom: 1px solid #e0e0e0;
         }
 
-        .toggle-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            padding: 8px 16px;
-            color: white;
+        .auth-container.dark-mode .auth-tabs {
+            border-bottom: 1px solid #444;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
             cursor: pointer;
-            font-size: 14px;
             font-weight: 600;
+            color: #666;
             transition: all 0.3s;
         }
 
-        .toggle-btn.active {
-            background: white;
-            color: #667eea;
-            border-color: white;
+        .auth-container.dark-mode .auth-tab {
+            color: #aaa;
         }
 
-        .toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
+        .auth-tab.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .auth-form {
+            padding: 30px;
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .auth-container.dark-mode .input-group label {
+            color: #aaa;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+        }
+
+        .auth-container.dark-mode .input-group input {
+            background: #2d2d44;
+            border-color: #444;
+            color: white;
+        }
+
+        .input-group input.error {
+            border-color: #f44336;
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-link {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
         }
 
         /* Dark Mode Button */
         .dark-mode-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 30px;
             padding: 8px 16px;
             color: white;
@@ -135,55 +235,128 @@
             align-items: center;
             gap: 5px;
             transition: all 0.3s;
-            margin-left: 10px;
+            z-index: 100;
         }
 
         .dark-mode-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255,255,255,0.3);
             transform: scale(1.05);
         }
 
-        /* Header Controls */
-        .header-controls {
+        /* Demo Credentials */
+        .demo-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            border: 1px dashed #667eea;
+        }
+
+        .auth-container.dark-mode .demo-box {
+            background: #2d2d44;
+            color: #aaa;
+            border-color: #667eea;
+        }
+
+        .demo-box strong {
+            color: #667eea;
+        }
+
+        /* Main Container (Chat) */
+        .main-container {
+            width: 90%;
+            max-width: 500px;
+            height: 80vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .main-container.dark-mode {
+            background: #1e1e2e;
+        }
+
+        /* Header */
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
-        /* Views Container */
-        .views-container {
-            height: calc(100% - 80px);
-            position: relative;
-        }
-
-        /* Chat View */
-        .chat-view {
-            height: 100%;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
         }
 
-        .chat-view.hidden {
-            display: none;
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: 5px 12px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
         }
 
-        /* Dashboard View */
-        .dashboard-view {
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            background: #f5f7fb;
-            transition: background 0.3s ease;
-            display: none;
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
         }
 
-        .dashboard-view.visible {
-            display: block;
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+            margin-right: 10px;
         }
 
-        .main-container.dark-mode .dashboard-view {
-            background: #151521;
+        .toggle-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: 5px 10px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #667eea;
         }
 
         /* Messages Area */
@@ -234,7 +407,6 @@
             margin-right: auto;
             border-bottom-left-radius: 4px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .main-container.dark-mode .bot {
@@ -303,15 +475,43 @@
             min-width: 90px;
         }
 
-        .joke-btn { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); color: #333; }
-        .help-btn { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); color: #333; }
-        .roast-btn { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); color: white; }
-        .savage-btn { background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%); color: white; }
-        .date-btn { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: #333; }
-        .time-btn { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #333; }
+        .joke-btn {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: #333;
+        }
 
-        .quick-btn:hover { transform: scale(1.05); }
-        .quick-btn:active { transform: scale(0.95); }
+        .help-btn {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #333;
+        }
+
+        .roast-btn {
+            background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%);
+            color: white;
+        }
+
+        .savage-btn {
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            color: white;
+        }
+
+        .date-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: #333;
+        }
+
+        .time-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #333;
+        }
+
+        .quick-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.95);
+        }
 
         /* Input Area */
         .input-area {
@@ -338,7 +538,9 @@
             transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
 
-        #input:focus { border-color: #667eea; }
+        #input:focus {
+            border-color: #667eea;
+        }
 
         .main-container.dark-mode #input {
             background: #2d2d44;
@@ -346,7 +548,9 @@
             color: white;
         }
 
-        .main-container.dark-mode #input::placeholder { color: #888; }
+        .main-container.dark-mode #input::placeholder {
+            color: #888;
+        }
 
         #send {
             padding: 12px 24px;
@@ -360,15 +564,21 @@
             transition: transform 0.2s;
         }
 
-        #send:hover { transform: scale(1.05); }
-        #send:active { transform: scale(0.95); }
-
-        /* Dashboard Content */
-        .dashboard-content {
-            padding: 10px;
+        #send:hover {
+            transform: scale(1.05);
         }
 
-        /* Stats Grid */
+        #send:active {
+            transform: scale(0.95);
+        }
+
+        /* Dashboard Styles */
+        .dashboard-content {
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -377,10 +587,9 @@
         }
 
         .stat-card {
-            background: white;
+            background: #f8f9fa;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: background 0.3s ease;
         }
 
@@ -391,10 +600,9 @@
         .stat-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
             color: #666;
             font-size: 14px;
+            margin-bottom: 10px;
         }
 
         .main-container.dark-mode .stat-header {
@@ -411,29 +619,20 @@
             color: white;
         }
 
-        .stat-change {
-            color: #4caf50;
-            font-size: 13px;
-        }
-
-        /* Chart Card */
         .chart-card {
-            background: white;
+            background: #f8f9fa;
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             margin-bottom: 20px;
         }
 
         .main-container.dark-mode .chart-card {
             background: #2d2d44;
-            color: white;
         }
 
         .chart-card h3 {
             color: #333;
             margin-bottom: 15px;
-            font-size: 16px;
         }
 
         .main-container.dark-mode .chart-card h3 {
@@ -452,134 +651,143 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 5px 5px 0 0;
             transition: height 0.3s;
-            min-width: 20px;
         }
 
-        /* Progress Bars */
-        .progress-item {
-            margin-bottom: 15px;
+        /* About Styles */
+        .about-content {
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
         }
 
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
+        .about-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .about-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .main-container.dark-mode .about-header h2 {
+            color: white;
+        }
+
+        .about-header p {
             color: #666;
-            font-size: 14px;
         }
 
-        .main-container.dark-mode .progress-header {
+        .main-container.dark-mode .about-header p {
             color: #aaa;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #eef2f6;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .main-container.dark-mode .progress-bar {
-            background: #444;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-
-        /* Activity List */
-        .activity-list {
-            background: white;
+        .about-card {
+            background: #f8f9fa;
+            padding: 20px;
             border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .main-container.dark-mode .activity-list {
+        .main-container.dark-mode .about-card {
             background: #2d2d44;
         }
 
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid #eef2f6;
-        }
-
-        .main-container.dark-mode .activity-item {
-            border-bottom: 1px solid #444;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .activity-details {
-            flex: 1;
-        }
-
-        .activity-name {
-            font-weight: 600;
+        .about-card h3 {
             color: #333;
+            margin: 15px 0 10px;
         }
 
-        .main-container.dark-mode .activity-name {
+        .main-container.dark-mode .about-card h3 {
             color: white;
         }
 
-        .activity-time {
-            font-size: 12px;
+        .about-card p {
             color: #666;
+            line-height: 1.6;
         }
 
-        .main-container.dark-mode .activity-time {
+        .main-container.dark-mode .about-card p {
             color: #aaa;
         }
 
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
+        .about-icon {
+            font-size: 48px;
         }
 
-        .status-badge.online {
-            background: #e8f5e8;
-            color: #4caf50;
+        .features-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
         }
 
-        .main-container.dark-mode .status-badge.online {
-            background: #1e3a1e;
+        .main-container.dark-mode .features-list {
+            background: #2d2d44;
         }
 
-        /* Responsive */
+        .features-list h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .main-container.dark-mode .features-list h3 {
+            color: white;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .main-container.dark-mode .feature-item {
+            border-bottom: 1px solid #444;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+        }
+
+        .feature-text h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .main-container.dark-mode .feature-text h4 {
+            color: white;
+        }
+
+        .feature-text p {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .main-container.dark-mode .feature-text p {
+            color: #aaa;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 600px) {
-            .main-container {
+            .auth-container, .main-container {
                 width: 100%;
                 height: 100vh;
                 border-radius: 0;
             }
-            
-            .toggle-btn {
-                padding: 6px 12px;
-                font-size: 12px;
+            .message {
+                max-width: 85%;
+            }
+            .quick-btn {
+                min-width: calc(33.33% - 10px);
+            }
+            #splash h1 {
+                font-size: 24px;
             }
         }
     </style>
@@ -590,128 +798,196 @@
         <h1>Made by AARAV🤖</h1>
     </div>
 
-    <div class="main-container" id="mainContainer">
-        <!-- Header -->
-        <div class="header">
-            <div>
-                <h2 id="headerTitle">ChatBot 🤖</h2>
-                <p id="headerSubtitle">Made by Aarav</p>
+    <!-- Dark Mode Button -->
+    <button class="dark-mode-btn" id="darkModeBtn">
+        <span id="darkIcon">🌙</span>
+        <span id="darkText">Dark</span>
+    </button>
+
+    <!-- Auth Container (Login/Register) - SHOW FIRST -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-header">
+            <h1>🤖</h1>
+            <p>Login or Register to Chat</p>
+        </div>
+
+
+        <!-- Auth Tabs -->
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</div>
+            <div class="auth-tab" id="registerTab" onclick="switchAuthTab('register')">Register</div>
+        </div>
+
+        <!-- Login Form - EMPTY FIELDS (you must type yourself) -->
+        <div class="auth-form active" id="loginForm">
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter username" value="">
             </div>
-            <div class="header-controls">
-                <div class="view-toggle">
-                    <button class="toggle-btn active" id="chatViewBtn" onclick="switchView('chat')">💬 Chat</button>
-                    <button class="toggle-btn" id="dashboardViewBtn" onclick="switchView('dashboard')">📊 Dashboard</button>
-                </div>
-                <button class="dark-mode-btn" id="darkModeBtn">
-                    <span id="darkIcon">🌙</span>
-                </button>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password" value="">
+                <div class="error-message" id="loginError">Invalid username or password</div>
+            </div>
+
+            <button class="auth-btn" onclick="handleLogin()">Sign In</button>
+
+            <div class="auth-link">
+                Don't have an account? <a onclick="switchAuthTab('register')">Register here</a>
             </div>
         </div>
 
-        <!-- Views Container -->
-        <div class="views-container">
-            <!-- Chat View -->
-            <div class="chat-view" id="chatView">
-                <div id="messages" class="messages">
-                    <!-- Messages appear here -->
-                </div>
-
-                <!-- 6 BUTTONS -->
-                <div class="quick-buttons">
-                    <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
-                    <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
-                    <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">🔥 ROAST</button>
-                    <button class="quick-btn savage-btn" onclick="sendQuickMessage('savage')">😈 SAVAGE</button>
-                    <button class="quick-btn date-btn" onclick="sendQuickMessage('date')">📅 DATE</button>
-                    <button class="quick-btn time-btn" onclick="sendQuickMessage('time')">⏰ TIME</button>
-                </div>
-
-                <div class="input-area">
-                    <input type="text" id="input" placeholder="Type your message..." autocomplete="off">
-                    <button id="send">Send</button>
-                </div>
+        <!-- Register Form -->
+        <div class="auth-form" id="registerForm">
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="registerName" placeholder="Enter your name">
             </div>
 
-            <!-- Dashboard View -->
-            <div class="dashboard-view" id="dashboardView">
-                <div class="dashboard-content">
-                    <!-- Stats Cards -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <span>Total Messages</span>
-                                <span class="stat-change" id="messageChange">+0%</span>
-                            </div>
-                            <div class="stat-value" id="totalMessages">0</div>
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" id="registerUsername" placeholder="Choose username">
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter email">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="registerPassword" placeholder="Create password">
+            </div>
+
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="registerConfirm" placeholder="Confirm password">
+                <div class="error-message" id="registerError"></div>
+            </div>
+
+            <button class="auth-btn" onclick="handleRegister()">Create Account</button>
+
+            <div class="auth-link">
+                Already have an account? <a onclick="switchAuthTab('login')">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container (Chat) - HIDDEN UNTIL LOGIN -->
+    <div class="main-container" id="mainContainer">
+        <div class="chat-header">
+            <div>
+                <h2>ChatBot 🤖</h2>
+                <p>Welcome, <span id="displayName">User</span></p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="view-toggle">
+                    <button class="toggle-btn active" onclick="showView('chat 💬')">Chat</button>
+                    <button class="toggle-btn" onclick="showView('dashboard 📊')">Dashboard</button>
+                    <button class="toggle-btn" onclick="showView('about 👍')">About</button>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat View -->
+        <div id="chatView" style="display: flex; flex-direction: column; height: 100%;">
+            <div id="messages" class="messages"></div>
+
+            <div class="quick-buttons">
+                <button class="quick-btn joke-btn" onclick="sendQuickMessage('tell me a joke')">😂 JOKE</button>
+                <button class="quick-btn help-btn" onclick="sendQuickMessage('help me')">🆘 HELP</button>
+                <button class="quick-btn roast-btn" onclick="sendQuickMessage('roast me')">🔥 ROAST</button>
+                <button class="quick-btn savage-btn" onclick="sendQuickMessage('savage')">😈 SAVAGE</button>
+                <button class="quick-btn date-btn" onclick="sendQuickMessage('date')">📅 DATE</button>
+                <button class="quick-btn time-btn" onclick="sendQuickMessage('time')">⏰ TIME</button>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="input" placeholder="Type your message..." autocomplete="off">
+                <button id="send">Send</button>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboardView" style="display: none; height: 100%; overflow-y: auto;">
+            <div class="dashboard-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Total Messages</span>
+                            <span class="stat-change">+12%</span>
                         </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <span>Session Time</span>
-                                <span class="stat-change" id="sessionChange">0m</span>
-                            </div>
-                            <div class="stat-value" id="sessionTime">0s</div>
+                        <div class="stat-value" id="totalMessages">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span>Session Time</span>
+                        </div>
+                        <div class="stat-value" id="sessionTime">0s</div>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Message Activity</h3>
+                    <div class="chart-placeholder" id="activityChart">
+                        <div class="bar" style="height: 60px;"></div>
+                        <div class="bar" style="height: 80px;"></div>
+                        <div class="bar" style="height: 100px;"></div>
+                        <div class="bar" style="height: 70px;"></div>
+                        <div class="bar" style="height: 120px;"></div>
+                        <div class="bar" style="height: 90px;"></div>
+                        <div class="bar" style="height: 110px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About View -->
+        <div id="aboutView" style="display: none; height: 100%; overflow-y: auto;">
+            <div class="about-content">
+                <div class="about-header">
+                    <h2>About ChatBot 🤖</h2>
+                    <p>Your friendly AI assistant</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon">🚀</div>
+                    <h3>Created by Aarav</h3>
+                    <p>A passionate teen developer who loves coding and building AI projects. This chatbot is made with love and JavaScript!</p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-icon">💡</div>
+                    <h3>What I Can Do</h3>
+                    <p>• Tell jokes and funny stories<br>• Roast you (playfully!)<br>• Solve math problems<br>• Tell date and time<br>• Help with homework<br>• Answer questions</p>
+                </div>
+
+                <div class="features-list">
+                    <h3>✨ Features</h3>
+                    <div class="feature-item">
+                        <div class="feature-icon">😂</div>
+                        <div class="feature-text">
+                            <h4>Joke Master</h4>
+                            <p>Hundreds of programming jokes</p>
                         </div>
                     </div>
-
-                    <!-- Message Activity Chart -->
-                    <div class="chart-card">
-                        <h3>Message Activity</h3>
-                        <div class="chart-placeholder" id="activityChart">
-                            <div class="bar" style="height: 60px;"></div>
-                            <div class="bar" style="height: 80px;"></div>
-                            <div class="bar" style="height: 100px;"></div>
-                            <div class="bar" style="height: 70px;"></div>
-                            <div class="bar" style="height: 120px;"></div>
-                            <div class="bar" style="height: 90px;"></div>
-                            <div class="bar" style="height: 110px;"></div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔥</div>
+                        <div class="feature-text">
+                            <h4>Roast Mode</h4>
+                            <p>Funny roasts and savage comebacks</p>
                         </div>
                     </div>
-
-                    <!-- Message Types Distribution -->
-                    <div class="chart-card">
-                        <h3>Message Types</h3>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <span>Questions</span>
-                                <span id="questionsPercent">45%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="questionsBar" style="width: 45%;"></div>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <span>Commands</span>
-                                <span id="commandsPercent">30%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="commandsBar" style="width: 30%;"></div>
-                            </div>
-                        </div>
-                        <div class="progress-item">
-                            <div class="progress-header">
-                                <span>Casual</span>
-                                <span id="casualPercent">25%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="casualBar" style="width: 25%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity -->
-                    <div class="activity-list">
-                        <h3 style="margin-bottom: 15px; color: #333;">Recent Activity</h3>
-                        <div id="recentActivity">
-                            <div class="activity-item">
-                                <div class="activity-icon">👤</div>
-                                <div class="activity-details">
-                                    <div class="activity-name">Welcome Message</div>
-                                    <div class="activity-time">Just now</div>
-                                </div>
-                                <span class="status-badge online">Bot</span>
-                            </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🧮</div>
+                        <div class="feature-text">
+                            <h4>Math Solver</h4>
+                            <p>Solve equations instantly</p>
                         </div>
                     </div>
                 </div>
@@ -720,289 +996,320 @@
     </div>
 
     <script>
+        // ===== USER DATABASE =====
+        let users = [];
+
+        // Load users from localStorage
+        function loadUsers() {
+            const stored = localStorage.getItem('chatbot_users');
+            if (stored) {
+                users = JSON.parse(stored);
+            } else {
+                users = [
+                    { id: 1, name: 'Aarav', username: 'aarav', email: 'aarav@example.com', password: 'password123' },
+                    { id: 2, name: 'Demo', username: 'demo', email: 'demo@example.com', password: 'demo123' },
+                    { id: 3, name: 'Test', username: 'test', email: 'test@example.com', password: 'test123' }
+                ];
+                saveUsers();
+            }
+        }
+
+        function saveUsers() {
+            localStorage.setItem('chatbot_users', JSON.stringify(users));
+        }
+
         // ===== SPLASH SCREEN =====
         window.onload = function() {
+            loadUsers();
+            
             setTimeout(function() {
                 document.getElementById("splash").classList.add('fade-out');
                 setTimeout(function() {
                     document.getElementById("splash").style.display = "none";
-                    // Show welcome message after splash
-                    createMessage("Hello! I am ChatBot 🤖", "bot");
-                    
-                    // Initialize dashboard
-                    updateDashboardStats();
-                    
-                    // Start session timer
-                    startSessionTimer();
                 }, 500);
             }, 2500);
+
+            // Always show auth container first - NO AUTO LOGIN
+            document.getElementById('authContainer').style.display = 'block';
+            document.getElementById('mainContainer').style.display = 'none';
+            
+            // Clear any saved login
+            localStorage.removeItem('currentUser');
         };
 
-        // ===== VIEW SWITCHING =====
-        function switchView(view) {
-            const chatView = document.getElementById('chatView');
-            const dashboardView = document.getElementById('dashboardView');
-            const chatBtn = document.getElementById('chatViewBtn');
-            const dashboardBtn = document.getElementById('dashboardViewBtn');
-            const headerTitle = document.getElementById('headerTitle');
-            const headerSubtitle = document.getElementById('headerSubtitle');
-            
-            if (view === 'chat') {
-                chatView.classList.remove('hidden');
-                dashboardView.classList.remove('visible');
-                chatBtn.classList.add('active');
-                dashboardBtn.classList.remove('active');
-                headerTitle.textContent = 'ChatBot 🤖';
-                headerSubtitle.textContent = 'Made by Aarav';
-            } else {
-                chatView.classList.add('hidden');
-                dashboardView.classList.add('visible');
-                dashboardBtn.classList.add('active');
-                chatBtn.classList.remove('active');
-                headerTitle.textContent = 'Dashboard 📊';
-                headerSubtitle.textContent = 'Chat Analytics';
-                
-                // Refresh dashboard data when switching to it
-                updateDashboardStats();
-                updateChart();
-            }
-        }
-
-        // ===== DARK MODE FUNCTION =====
+        // ===== DARK MODE =====
         function toggleDarkMode() {
             const body = document.getElementById('body');
-            const container = document.getElementById('mainContainer');
+            const authContainer = document.getElementById('authContainer');
+            const mainContainer = document.getElementById('mainContainer');
             const darkIcon = document.getElementById('darkIcon');
+            const darkText = document.getElementById('darkText');
             
             body.classList.toggle('dark-mode');
-            container.classList.toggle('dark-mode');
+            authContainer.classList.toggle('dark-mode');
+            mainContainer.classList.toggle('dark-mode');
             
             if (body.classList.contains('dark-mode')) {
                 darkIcon.textContent = '☀️';
+                darkText.textContent = 'Light';
                 localStorage.setItem('darkMode', 'enabled');
             } else {
                 darkIcon.textContent = '🌙';
+                darkText.textContent = 'Dark';
                 localStorage.setItem('darkMode', 'disabled');
             }
         }
 
-        // ===== LOAD DARK MODE PREFERENCE =====
-        function loadDarkMode() {
-            if (localStorage.getItem('darkMode') === 'enabled') {
-                document.getElementById('body').classList.add('dark-mode');
-                document.getElementById('mainContainer').classList.add('dark-mode');
-                document.getElementById('darkIcon').textContent = '☀️';
+        document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.getElementById('body').classList.add('dark-mode');
+            document.getElementById('authContainer').classList.add('dark-mode');
+            document.getElementById('darkIcon').textContent = '☀️';
+            document.getElementById('darkText').textContent = 'Light';
+        }
+
+        // ===== AUTH TAB SWITCHING =====
+        function switchAuthTab(tab) {
+            document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+            document.getElementById('registerTab').classList.toggle('active', tab === 'register');
+            document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+            document.getElementById('registerForm').classList.toggle('active', tab === 'register');
+        }
+
+        // ===== HANDLE LOGIN =====
+        function handleLogin() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            // Don't auto-login - require user to type
+            if (!username || !password) {
+                document.getElementById('loginError').textContent = 'Please enter username and password';
+                document.getElementById('loginError').style.display = 'block';
+                return;
+            }
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                const userData = { id: user.id, name: user.name, username: user.username };
+                // Save session
+                sessionStorage.setItem('currentUser', JSON.stringify(userData));
+                showMainApp(userData);
+                document.getElementById('loginError').style.display = 'none';
+            } else {
+                document.getElementById('loginError').textContent = 'Invalid username or password';
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
-        // ===== ELEMENTS =====
-        const messages = document.getElementById("messages");
-        const input = document.getElementById("input");
-        const send = document.getElementById("send");
-        const darkModeBtn = document.getElementById("darkModeBtn");
+        // ===== HANDLE REGISTER =====
+        function handleRegister() {
+            const name = document.getElementById('registerName').value.trim();
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerConfirm').value;
+            const error = document.getElementById('registerError');
+            
+            if (!name || !username || !email || !password) {
+                error.textContent = 'All fields required';
+                error.style.display = 'block';
+                return;
+            }
+            
+            if (password !== confirm) {
+                error.textContent = 'Passwords do not match';
+                error.style.display = 'block';
+                return;
+            }
+            
+            if (users.some(u => u.username === username)) {
+                error.textContent = 'Username already exists';
+                error.style.display = 'block';
+                return;
+            }
+            
+            const newUser = {
+                id: users.length + 1,
+                name: name,
+                username: username,
+                email: email,
+                password: password
+            };
+            
+            users.push(newUser);
+            saveUsers();
+            
+            error.style.color = '#4caf50';
+            error.textContent = 'Registration successful! Please login.';
+            error.style.display = 'block';
+            
+            setTimeout(() => {
+                error.style.display = 'none';
+                error.style.color = '#f44336';
+                switchAuthTab('login');
+            }, 2000);
+        }
 
-        // ===== DASHBOARD VARIABLES =====
+        // ===== SHOW MAIN APP =====
+        function showMainApp(user) {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'flex';
+            
+            document.getElementById('displayName').textContent = user.name;
+            document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+            
+            // Show chat view by default
+            showView('chat');
+            
+            // Clear messages and add welcome
+            document.getElementById('messages').innerHTML = '';
+            createMessage("Hello " + user.name.split(' ')[0] + "! I am ChatBot 🤖", "bot");
+            
+            // Reset counters
+            messageCount = 0;
+            sessionSeconds = 0;
+            document.getElementById('totalMessages').textContent = '0';
+            document.getElementById('sessionTime').textContent = '0s';
+            
+            // Start session timer
+            startSessionTimer();
+        }
+
+        // ===== LOGOUT =====
+        function logout() {
+            sessionStorage.removeItem('currentUser');
+            document.getElementById('mainContainer').style.display = 'none';
+            document.getElementById('authContainer').style.display = 'block';
+            
+            // Clear login fields
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            
+            // Clear register fields
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('registerConfirm').value = '';
+            
+            // Stop timer
+            if (sessionInterval) clearInterval(sessionInterval);
+        }
+
+        // ===== VIEW SWITCHING =====
+        function showView(view) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            document.getElementById('chatView').style.display = 'none';
+            document.getElementById('dashboardView').style.display = 'none';
+            document.getElementById('aboutView').style.display = 'none';
+            
+            document.getElementById(view + 'View').style.display = view === 'chat' ? 'flex' : 'block';
+            
+            if (view === 'dashboard') {
+                updateDashboard();
+            }
+        }
+
+        // ===== CHAT VARIABLES =====
+        const messages = document.getElementById('messages');
+        const input = document.getElementById('input');
+        const send = document.getElementById('send');
+        
         let messageCount = 0;
         let sessionSeconds = 0;
         let sessionInterval;
-        let messageTypes = {
-            questions: 0,
-            commands: 0,
-            casual: 0
-        };
 
-        // ===== EVENT LISTENERS =====
-        send.addEventListener("click", sendMessage);
-        darkModeBtn.addEventListener("click", toggleDarkMode);
-        
-        input.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") sendMessage();
+        send.addEventListener('click', sendMessage);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendMessage();
         });
 
-        // Load dark mode preference
-        loadDarkMode();
-
-        // ===== SESSION TIMER =====
-        function startSessionTimer() {
-            sessionInterval = setInterval(() => {
-                sessionSeconds++;
-                updateSessionTime();
-            }, 1000);
-        }
-
-        function updateSessionTime() {
-            const minutes = Math.floor(sessionSeconds / 60);
-            const seconds = sessionSeconds % 60;
-            document.getElementById('sessionTime').textContent = `${minutes}m ${seconds}s`;
-            document.getElementById('sessionChange').textContent = `${minutes}m`;
-        }
-
-        // ===== QUICK MESSAGE FUNCTION =====
         function sendQuickMessage(text) {
             input.value = text;
             sendMessage();
         }
 
-        // ===== SEND MESSAGE =====
         function sendMessage() {
             const text = input.value.trim();
             if (!text) return;
 
-            createMessage(text, "user");
-            input.value = "";
+            createMessage(text, 'user');
+            input.value = '';
 
-            // Update message count
             messageCount++;
-            updateMessageStats(text);
+            document.getElementById('totalMessages').textContent = messageCount;
 
             showTyping();
 
             setTimeout(() => {
                 removeTyping();
                 const reply = getBotReply(text);
-                createMessage(reply, "bot");
-                
-                // Update message count for bot response
+                createMessage(reply, 'bot');
                 messageCount++;
-                updateMessageStats(reply, true);
-                
-                // Add to recent activity
-                addToRecentActivity(reply, 'Bot');
+                document.getElementById('totalMessages').textContent = messageCount;
             }, 1200);
         }
 
-        // ===== UPDATE MESSAGE STATS =====
-        function updateMessageStats(text, isBot = false) {
-            // Update total messages
-            document.getElementById('totalMessages').textContent = messageCount;
-            document.getElementById('messageChange').innerHTML = '+' + Math.floor(Math.random() * 20) + '%';
-            
-            // Categorize message
-            if (text.includes('?') || text.toLowerCase().includes('what') || text.toLowerCase().includes('how') || text.toLowerCase().includes('why')) {
-                messageTypes.questions++;
-            } else if (text.toLowerCase().includes('joke') || text.toLowerCase().includes('roast') || text.toLowerCase().includes('savage') || text.toLowerCase().includes('date') || text.toLowerCase().includes('time')) {
-                messageTypes.commands++;
-            } else {
-                messageTypes.casual++;
-            }
-            
-            // Calculate percentages
-            const total = messageTypes.questions + messageTypes.commands + messageTypes.casual;
-            if (total > 0) {
-                const questionsPercent = Math.round((messageTypes.questions / total) * 100);
-                const commandsPercent = Math.round((messageTypes.commands / total) * 100);
-                const casualPercent = 100 - questionsPercent - commandsPercent;
-                
-                document.getElementById('questionsPercent').textContent = questionsPercent + '%';
-                document.getElementById('commandsPercent').textContent = commandsPercent + '%';
-                document.getElementById('casualPercent').textContent = casualPercent + '%';
-                
-                document.getElementById('questionsBar').style.width = questionsPercent + '%';
-                document.getElementById('commandsBar').style.width = commandsPercent + '%';
-                document.getElementById('casualBar').style.width = casualPercent + '%';
-            }
-            
-            // Update chart randomly
-            updateChart();
-        }
-
-        // ===== UPDATE CHART =====
-        function updateChart() {
-            const bars = document.querySelectorAll('#activityChart .bar');
-            bars.forEach(bar => {
-                const newHeight = Math.floor(Math.random() * 80) + 40;
-                bar.style.height = newHeight + 'px';
-            });
-        }
-
-        // ===== ADD TO RECENT ACTIVITY =====
-        function addToRecentActivity(message, sender) {
-            const activityDiv = document.getElementById('recentActivity');
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            const newActivity = document.createElement('div');
-            newActivity.className = 'activity-item';
-            newActivity.innerHTML = `
-                <div class="activity-icon">${sender === 'Bot' ? '🤖' : '👤'}</div>
-                <div class="activity-details">
-                    <div class="activity-name">${sender}</div>
-                    <div class="activity-time">${time}</div>
-                </div>
-                <span class="status-badge online">${message.substring(0, 15)}${message.length > 15 ? '...' : ''}</span>
-            `;
-            
-            activityDiv.insertBefore(newActivity, activityDiv.firstChild);
-            
-            // Keep only last 5 activities
-            while (activityDiv.children.length > 5) {
-                activityDiv.removeChild(activityDiv.lastChild);
-            }
-        }
-
-        // ===== UPDATE DASHBOARD STATS =====
-        function updateDashboardStats() {
-            document.getElementById('totalMessages').textContent = messageCount;
-            updateSessionTime();
-        }
-
-        // ===== CREATE MESSAGE =====
         function createMessage(text, sender) {
-            const div = document.createElement("div");
-            div.classList.add("message", sender);
+            const div = document.createElement('div');
+            div.classList.add('message', sender);
             div.innerText = text;
-
             messages.appendChild(div);
             messages.scrollTop = messages.scrollHeight;
-            
-            // Add to recent activity
-            if (sender === 'user') {
-                addToRecentActivity(text, 'You');
-            }
         }
 
-        // ===== TYPING ANIMATION =====
         function showTyping() {
-            const div = document.createElement("div");
-            div.classList.add("message", "bot");
-            div.id = "typing";
-
-            div.innerHTML = `
-                <div class="typing">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            `;
-
+            const div = document.createElement('div');
+            div.classList.add('message', 'bot');
+            div.id = 'typing';
+            div.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
             messages.appendChild(div);
             messages.scrollTop = messages.scrollHeight;
         }
 
         function removeTyping() {
-            const typing = document.getElementById("typing");
+            const typing = document.getElementById('typing');
             if (typing) typing.remove();
         }
 
-        // ===== BOT BRAIN =====
+        function startSessionTimer() {
+            if (sessionInterval) clearInterval(sessionInterval);
+            sessionInterval = setInterval(() => {
+                sessionSeconds++;
+                const minutes = Math.floor(sessionSeconds / 60);
+                const seconds = sessionSeconds % 60;
+                document.getElementById('sessionTime').textContent = `${minutes}m ${seconds}s`;
+            }, 1000);
+        }
+
+        function updateDashboard() {
+            const bars = document.querySelectorAll('#activityChart .bar');
+            bars.forEach(bar => {
+                bar.style.height = Math.floor(Math.random() * 100) + 40 + 'px';
+            });
+        }
+
+        // ===== BOT REPLIES (YOUR ORIGINAL) =====
         function getBotReply(msg) {
             msg = msg.toLowerCase();
 
-            // ===== MATH PROBLEM SOLVER =====
+            // Math solver
             try {
                 if (/^[0-9+\-*/().%\s]+$/.test(msg) && 
                     (msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')'))) {
-                    
                     let result = Function('"use strict";return (' + msg + ')')();
-                    
                     if (typeof result === 'number' && !isNaN(result)) {
                         return "🧮 " + msg + " = " + result;
                     }
                 }
-            } catch (error) {
-                console.log("Math error:", error);
-            }
+            } catch (error) {}
 
-            // ===== RESPONSES =====
+            // Your original responses
             if (msg.includes("i am sad") || msg.includes("i'm sad") || msg.includes("im sad"))
                 return "Don't be sad ❤️ You are learning coding which is awesome 😎";
             
@@ -1051,7 +1358,6 @@
             if (msg.includes("dream"))
                 return "Dream big, code bigger 🚀";
 
-            // Homework Help
             if (msg.includes("homework"))
                 return "Sure 😎 Tell me the subject — Math, Science, English, or others?";
 
@@ -1082,7 +1388,7 @@
             if (msg.includes("you are stupid") || msg.includes("u stupid"))
                 return "At least I don't write bugs like you 💀";
 
-            // ROAST button
+            // Button responses
             if (msg.includes("roast me") || msg.includes("roast")) {
                 let roasts = [
                     "🔥 I would roast you but I respect your feelings… just kidding 😈 Your WiFi is faster than your brain 💀😂",
@@ -1091,52 +1397,44 @@
                     "🔥 You're not stupid, you're just cursed by mediocrity!",
                     "🔥 You're proof that evolution can go in reverse!",
                     "🔥 You're so slow, even Google Maps can't find your brain!",
-                    "🔥 Your logic is like broken WiFi — keeps disconnecting 💀"
                 ];
-                return roasts [Math.floor(Math.random() * roasts.length)];
+                return roasts[Math.floor(Math.random() * roasts.length)];
             }
 
-            // SAVAGE button
             if (msg.includes("savage")) {
                 let savages = [
                     "😈 Your WiFi is weaker than your excuses!",
                     "😈 You're so basic, even your profile picture judges you!",
                     "😈 You have the right to remain silent because anything you say will be wrong!",
                     "😈 I'd explain it to you, but I left my crayons at home!",
-                    "😈 Your code has more bugs than a 90's computer lab!"
                 ];
                 return savages[Math.floor(Math.random() * savages.length)];
             }
 
-            // JOKE button
             if (msg.includes("joke") || msg.includes("tell me a joke")) {
                 let jokes = [
                     "😂 Programmers hate nature because of bugs 🐞😂",
                     "😂 Why do programmers prefer dark mode? Light attracts bugs!",
                     "😂 Why don't scientists trust atoms? They make up everything!",
-                    "😂 What do you call a bear with no teeth? A gummy bear!"
+                    "😂 What do you call a bear with no teeth? A gummy bear!",
                 ];
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
-            // HELP button
             if (msg.includes("help me") || msg.includes("help")) {
                 return "🆘 I can help with:\n• Math problems (2+2, 5*3)\n• Jokes, roasts, savage mode\n• Date and Time\n• Homework help\n• General questions";
             }
 
-            // DATE button
             if (msg.includes("date")) {
                 let today = new Date();
                 return "📅 Today is " + today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             }
 
-            // TIME button
             if (msg.includes("time")) {
                 let now = new Date();
                 return "⏰ Current time is " + now.toLocaleTimeString();
             }
 
-            // Default response
             return "Tell me more 👀 I can tell jokes, roast you, help with homework, or solve math problems!";
         }
     </script>
