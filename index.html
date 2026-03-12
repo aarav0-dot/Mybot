@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2196F3">
-    <title>ChatBot 🤖 </title>
+    <title>ChatBot 🤖 - Mega Trivia Edition</title>
     <style>
         * {
             margin: 0;
@@ -272,7 +272,7 @@
             padding: 10px;
             border-radius: 10px;
             text-align: center;
-            margin-bottom: 15px;
+            margin: 15px 20px;
             font-size: 14px;
             display: none;
         }
@@ -586,6 +586,198 @@
             transform: scale(0.95);
         }
 
+        /* Games Tab */
+        #gamesView {
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .game-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .main-container.dark-mode .game-card {
+            background: #2d2d44;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .game-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .game-card h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .main-container.dark-mode .game-card h3 {
+            color: white;
+        }
+
+        .game-card p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .main-container.dark-mode .game-card p {
+            color: #aaa;
+        }
+
+        /* Game Container */
+        .game-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .main-container.dark-mode .game-container {
+            background: #2d2d44;
+        }
+
+        .game-container h3 {
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .main-container.dark-mode .game-container h3 {
+            color: white;
+        }
+
+        /* Tic Tac Toe */
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 250px;
+            margin: 0 auto 20px;
+        }
+
+        .ttt-cell {
+            aspect-ratio: 1;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .main-container.dark-mode .ttt-cell {
+            background: #1e1e2e;
+            color: white;
+        }
+
+        .ttt-cell:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .game-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .game-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Trivia */
+        .trivia-question {
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .trivia-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .trivia-option {
+            padding: 12px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .main-container.dark-mode .trivia-option {
+            background: #1e1e2e;
+            color: white;
+        }
+
+        .trivia-option:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .trivia-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .trivia-option.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 18px;
+            margin: 15px 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .main-container.dark-mode .score {
+            color: white;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
         /* Dashboard Styles */
         .dashboard-content {
             padding: 20px;
@@ -633,10 +825,6 @@
             color: white;
         }
 
-        .stat-change {
-            color: #4caf50;
-        }
-
         .chart-card {
             background: #f8f9fa;
             padding: 20px;
@@ -669,7 +857,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 5px 5px 0 0;
             transition: height 0.3s;
-            min-width: 20px;
         }
 
         /* About Styles */
@@ -808,13 +995,16 @@
             #splash h1 {
                 font-size: 24px;
             }
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body id="body">
     <!-- SPLASH SCREEN -->
     <div id="splash">
-        <h1>welcome to my chatbot🤖</h1>
+        <h1>Welcome to ChatBot 🤖</h1>
     </div>
 
     <!-- Dark Mode Button -->
@@ -834,6 +1024,7 @@
         <div class="success-message" id="successMessage"></div>
 
 
+
         <!-- Auth Tabs -->
         <div class="auth-tabs">
             <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</div>
@@ -844,12 +1035,12 @@
         <div class="auth-form active" id="loginForm">
             <div class="input-group">
                 <label>Username</label>
-                <input type="text" id="loginUsername" placeholder="Enter username" value="">
+                <input type="text" id="loginUsername" placeholder="Enter username">
             </div>
 
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter password" value="">
+                <input type="password" id="loginPassword" placeholder="Enter password">
                 <div class="error-message" id="loginError">Invalid username or password</div>
             </div>
 
@@ -896,7 +1087,7 @@
         </div>
     </div>
 
-    <!-- Main Container (Chat) -->
+    <!-- Main Container (Chat + Games) -->
     <div class="main-container" id="mainContainer">
         <div class="chat-header">
             <div>
@@ -906,6 +1097,7 @@
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div class="view-toggle">
                     <button class="toggle-btn active" onclick="showView('chat')">💬 Chat</button>
+                    <button class="toggle-btn" onclick="showView('games')">🎮 Games</button>
                     <button class="toggle-btn" onclick="showView('dashboard')">📊 Dashboard</button>
                     <button class="toggle-btn" onclick="showView('about')">ℹ️ About</button>
                 </div>
@@ -935,6 +1127,26 @@
             </div>
         </div>
 
+        <!-- Games View -->
+        <div id="gamesView" style="display: none;">
+            <div class="games-grid">
+                <div class="game-card" onclick="startGame('tictactoe')">
+                    <div class="game-icon">❌⭕</div>
+                    <h3>Tic-Tac-Toe</h3>
+                    <p>Play against your friend!</p>
+                </div>
+                <div class="game-card" onclick="startGame('trivia')">
+                    <div class="game-icon">❓</div>
+                    <h3>Mega Trivia</h3>
+                    <p>50+ questions to test your knowledge!</p>
+                </div>
+            </div>
+
+            <div id="gameContainer" class="game-container">
+                <!-- Game will load here -->
+            </div>
+        </div>
+
         <!-- Dashboard View -->
         <div id="dashboardView" style="display: none; height: 100%; overflow-y: auto;">
             <div class="dashboard-content">
@@ -952,18 +1164,6 @@
                         </div>
                         <div class="stat-value" id="sessionTime">0s</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <span>Questions</span>
-                        </div>
-                        <div class="stat-value" id="questionsCount">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <span>Commands</span>
-                        </div>
-                        <div class="stat-value" id="commandsCount">0</div>
-                    </div>
                 </div>
 
                 <div class="chart-card">
@@ -976,13 +1176,6 @@
                         <div class="bar" style="height: 120px;"></div>
                         <div class="bar" style="height: 90px;"></div>
                         <div class="bar" style="height: 110px;"></div>
-                    </div>
-                </div>
-
-                <div class="chart-card">
-                    <h3>Recent Activity</h3>
-                    <div id="recentActivity" style="color: #666; padding: 10px;">
-                        <p>No recent activity</p>
                     </div>
                 </div>
             </div>
@@ -999,58 +1192,13 @@
                 <div class="about-card">
                     <div class="about-icon">🚀</div>
                     <h3>Created by Aarav</h3>
-                    <p>A passionate teen developer who loves coding and building AI projects. This chatbot is made with love and JavaScript!</p>
+                    <p>A passionate teen developer who loves coding and building AI projects.</p>
                 </div>
 
                 <div class="about-card">
                     <div class="about-icon">💡</div>
                     <h3>What I Can Do</h3>
-                    <p>• Tell jokes and funny stories<br>• Roast you (playfully!)<br>• Solve math problems<br>• Tell date and time<br>• Help with homework<br>• Answer questions</p>
-                </div>
-
-                <div class="features-list">
-                    <h3>✨ Features</h3>
-                    <div class="feature-item">
-                        <div class="feature-icon">😂</div>
-                        <div class="feature-text">
-                            <h4>Joke Master</h4>
-                            <p>Hundreds of programming jokes to make you laugh</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🔥</div>
-                        <div class="feature-text">
-                            <h4>Roast Mode</h4>
-                            <p>Get roasted with funny and savage comebacks</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">😈</div>
-                        <div class="feature-text">
-                            <h4>Savage Mode</h4>
-                            <p>Extra spicy responses for when you're feeling brave</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🧮</div>
-                        <div class="feature-text">
-                            <h4>Math Solver</h4>
-                            <p>Solve equations instantly (try 2+2, 5*3, etc.)</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">📚</div>
-                        <div class="feature-text">
-                            <h4>Homework Help</h4>
-                            <p>Help with Math, Science, English, and more</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-card">
-                    <div class="about-icon">📊</div>
-                    <h3>Dashboard Stats</h3>
-                    <p>Track your messages, session time, questions asked, and commands used in real-time!</p>
+                    <p>• Tell jokes<br>• Roast you<br>• Solve math<br>• Play games (50+ Trivia Questions!)<br>• Tell date/time</p>
                 </div>
             </div>
         </div>
@@ -1068,8 +1216,7 @@
             } else {
                 users = [
                     { id: 1, name: 'Aarav', username: 'aarav', email: 'aarav@example.com', password: 'password123' },
-                    { id: 2, name: 'Demo', username: 'demo', email: 'demo@example.com', password: 'demo123' },
-                    { id: 3, name: 'Test', username: 'test', email: 'test@example.com', password: 'test123' }
+                    { id: 2, name: 'Demo', username: 'demo', email: 'demo@example.com', password: 'demo123' }
                 ];
                 saveUsers();
             }
@@ -1201,10 +1348,10 @@
             };
             
             users.push(newUser);
-            saveUsers(); // AUTO-SAVE to localStorage
+            saveUsers();
             
             // Show success message
-            successMsg.textContent = '✅ Registration successful! Account saved. Please login.';
+            successMsg.textContent = '✅ Registration successful! Please login.';
             successMsg.style.display = 'block';
             
             // Clear form
@@ -1241,12 +1388,8 @@
             // Reset counters
             messageCount = 0;
             sessionSeconds = 0;
-            questionsCount = 0;
-            commandsCount = 0;
             document.getElementById('totalMessages').textContent = '0';
             document.getElementById('sessionTime').textContent = '0s';
-            document.getElementById('questionsCount').textContent = '0';
-            document.getElementById('commandsCount').textContent = '0';
             
             // Start session timer
             startSessionTimer();
@@ -1272,13 +1415,19 @@
             event.currentTarget.classList.add('active');
             
             document.getElementById('chatView').style.display = 'none';
+            document.getElementById('gamesView').style.display = 'none';
             document.getElementById('dashboardView').style.display = 'none';
             document.getElementById('aboutView').style.display = 'none';
             
-            document.getElementById(view + 'View').style.display = view === 'chat' ? 'flex' : 'block';
-            
-            if (view === 'dashboard') {
+            if (view === 'chat') {
+                document.getElementById('chatView').style.display = 'flex';
+            } else if (view === 'games') {
+                document.getElementById('gamesView').style.display = 'block';
+            } else if (view === 'dashboard') {
+                document.getElementById('dashboardView').style.display = 'block';
                 updateDashboard();
+            } else if (view === 'about') {
+                document.getElementById('aboutView').style.display = 'block';
             }
         }
 
@@ -1290,9 +1439,6 @@
         let messageCount = 0;
         let sessionSeconds = 0;
         let sessionInterval;
-        let questionsCount = 0;
-        let commandsCount = 0;
-        let recentMessages = [];
 
         send.addEventListener('click', sendMessage);
         input.addEventListener('keydown', (e) => {
@@ -1312,7 +1458,6 @@
             input.value = '';
 
             messageCount++;
-            updateMessageStats(text);
             document.getElementById('totalMessages').textContent = messageCount;
 
             showTyping();
@@ -1323,13 +1468,6 @@
                 createMessage(reply, 'bot');
                 messageCount++;
                 document.getElementById('totalMessages').textContent = messageCount;
-                
-                // Add to recent activity
-                recentMessages.unshift({
-                    type: 'Message',
-                    time: new Date().toLocaleTimeString()
-                });
-                if (recentMessages.length > 5) recentMessages.pop();
             }, 1200);
         }
 
@@ -1355,19 +1493,6 @@
             if (typing) typing.remove();
         }
 
-        function updateMessageStats(text) {
-            if (text.includes('?') || text.toLowerCase().includes('what') || 
-                text.toLowerCase().includes('how') || text.toLowerCase().includes('why')) {
-                questionsCount++;
-                document.getElementById('questionsCount').textContent = questionsCount;
-            } else if (text.toLowerCase().includes('joke') || text.toLowerCase().includes('roast') || 
-                       text.toLowerCase().includes('savage') || text.toLowerCase().includes('date') || 
-                       text.toLowerCase().includes('time')) {
-                commandsCount++;
-                document.getElementById('commandsCount').textContent = commandsCount;
-            }
-        }
-
         function startSessionTimer() {
             if (sessionInterval) clearInterval(sessionInterval);
             sessionInterval = setInterval(() => {
@@ -1383,160 +1508,287 @@
             bars.forEach(bar => {
                 bar.style.height = Math.floor(Math.random() * 100) + 40 + 'px';
             });
+        }
+
+        // ===== GAMES =====
+        let currentGame = null;
+        let tttBoard = ['', '', '', '', '', '', '', '', ''];
+        let tttCurrentPlayer = 'X';
+        let gameActive = true;
+        
+        // Trivia variables
+        let triviaScore = 0;
+        let currentQuestion = 0;
+        
+        // ===== 50+ TRIVIA QUESTIONS =====
+        const triviaQuestions = [
+            // Geography (10 questions)
+            { category: "🌍 Geography", question: "What is the capital of France?", options: ["London", "Berlin", "Paris", "Madrid"], correct: 2 },
+            { category: "🌍 Geography", question: "What is the capital of Japan?", options: ["Seoul", "Beijing", "Tokyo", "Bangkok"], correct: 2 },
+            { category: "🌍 Geography", question: "What is the capital of Italy?", options: ["Rome", "Milan", "Venice", "Florence"], correct: 0 },
+            { category: "🌍 Geography", question: "What is the capital of Australia?", options: ["Sydney", "Melbourne", "Canberra", "Perth"], correct: 2 },
+            { category: "🌍 Geography", question: "What is the capital of Canada?", options: ["Toronto", "Vancouver", "Ottawa", "Montreal"], correct: 2 },
+            { category: "🌍 Geography", question: "What is the capital of Brazil?", options: ["Rio", "São Paulo", "Brasília", "Salvador"], correct: 2 },
+            { category: "🌍 Geography", question: "What is the capital of India?", options: ["Mumbai", "Delhi", "Kolkata", "Chennai"], correct: 1 },
+            { category: "🌍 Geography", question: "What is the capital of Russia?", options: ["St Petersburg", "Moscow", "Kiev", "Minsk"], correct: 1 },
+            { category: "🌍 Geography", question: "What is the capital of Egypt?", options: ["Cairo", "Alexandria", "Giza", "Luxor"], correct: 0 },
+            { category: "🌍 Geography", question: "What is the capital of Mexico?", options: ["Mexico City", "Guadalajara", "Monterrey", "Cancun"], correct: 0 },
+
+            // Science (10 questions)
+            { category: "🔬 Science", question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], correct: 1 },
+            { category: "🔬 Science", question: "What is the hardest natural substance?", options: ["Gold", "Iron", "Diamond", "Platinum"], correct: 2 },
+            { category: "🔬 Science", question: "What is the chemical symbol for water?", options: ["O2", "CO2", "H2O", "NaCl"], correct: 2 },
+            { category: "🔬 Science", question: "How many bones are in the adult human body?", options: ["206", "208", "210", "212"], correct: 0 },
+            { category: "🔬 Science", question: "What is the largest organ in the human body?", options: ["Heart", "Brain", "Skin", "Liver"], correct: 2 },
+            { category: "🔬 Science", question: "What planet is closest to the sun?", options: ["Venus", "Mercury", "Earth", "Mars"], correct: 1 },
+            { category: "🔬 Science", question: "What is the boiling point of water?", options: ["90°C", "100°C", "110°C", "120°C"], correct: 1 },
+            { category: "🔬 Science", question: "What is the fastest land animal?", options: ["Lion", "Cheetah", "Leopard", "Tiger"], correct: 1 },
+            { category: "🔬 Science", question: "What is the largest planet in our solar system?", options: ["Saturn", "Jupiter", "Neptune", "Uranus"], correct: 1 },
+            { category: "🔬 Science", question: "How many hearts does an octopus have?", options: ["1", "2", "3", "4"], correct: 2 },
+
+            // Math (10 questions)
+            { category: "🧮 Math", question: "What is 5 + 7?", options: ["10", "11", "12", "13"], correct: 2 },
+            { category: "🧮 Math", question: "What is 15 - 8?", options: ["5", "6", "7", "8"], correct: 2 },
+            { category: "🧮 Math", question: "What is 6 × 7?", options: ["42", "48", "36", "49"], correct: 0 },
+            { category: "🧮 Math", question: "What is 81 ÷ 9?", options: ["7", "8", "9", "10"], correct: 2 },
+            { category: "🧮 Math", question: "What is the square root of 64?", options: ["6", "7", "8", "9"], correct: 2 },
+            { category: "🧮 Math", question: "What is 25% of 200?", options: ["25", "50", "75", "100"], correct: 1 },
+            { category: "🧮 Math", question: "What is 12²?", options: ["124", "144", "156", "168"], correct: 1 },
+            { category: "🧮 Math", question: "What is ⅓ of 99?", options: ["30", "33", "36", "39"], correct: 1 },
+            { category: "🧮 Math", question: "What is 100 - 37?", options: ["63", "73", "67", "77"], correct: 0 },
+            { category: "🧮 Math", question: "What is 15 × 15?", options: ["200", "225", "250", "275"], correct: 1 },
+
+            // History (10 questions)
+            { category: "📜 History", question: "Who painted the Mona Lisa?", options: ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"], correct: 2 },
+            { category: "📜 History", question: "In which year did World War II end?", options: ["1944", "1945", "1946", "1947"], correct: 1 },
+            { category: "📜 History", question: "Who was the first US President?", options: ["Adams", "Jefferson", "Washington", "Lincoln"], correct: 2 },
+            { category: "📜 History", question: "What year did the Titanic sink?", options: ["1910", "1912", "1914", "1916"], correct: 1 },
+            { category: "📜 History", question: "Who discovered America in 1492?", options: ["Columbus", "Vespucci", "Magellan", "Cook"], correct: 0 },
+            { category: "📜 History", question: "What was the first civilization?", options: ["Egyptian", "Greek", "Roman", "Sumerian"], correct: 3 },
+            { category: "📜 History", question: "Who was the first man on the moon?", options: ["Armstrong", "Aldrin", "Gagarin", "Shepard"], correct: 0 },
+            { category: "📜 History", question: "What year did the Berlin Wall fall?", options: ["1987", "1989", "1991", "1993"], correct: 1 },
+            { category: "📜 History", question: "Who wrote 'Romeo and Juliet'?", options: ["Dickens", "Shakespeare", "Hemingway", "Tolkien"], correct: 1 },
+            { category: "📜 History", question: "What was the ancient Egyptian writing called?", options: ["Cuneiform", "Hieroglyphics", "Alphabet", "Sanskrit"], correct: 1 },
+
+            // Entertainment (10 questions)
+            { category: "🎬 Entertainment", question: "What is the highest-grossing film of all time?", options: ["Titanic", "Avatar", "Avengers", "Star Wars"], correct: 1 },
+            { category: "🎬 Entertainment", question: "Who played Iron Man?", options: ["Chris Evans", "Robert Downey Jr", "Chris Hemsworth", "Scarlett Johansson"], correct: 1 },
+            { category: "🎬 Entertainment", question: "What is Harry Potter's middle name?", options: ["James", "John", "Peter", "William"], correct: 0 },
+            { category: "🎬 Entertainment", question: "Which band sang 'Bohemian Rhapsody'?", options: ["Beatles", "Queen", "Rolling Stones", "Led Zeppelin"], correct: 1 },
+            { category: "🎬 Entertainment", question: "Who is the creator of Mickey Mouse?", options: ["Disney", "Warner", "Hanna", "Barbera"], correct: 0 },
+            { category: "🎬 Entertainment", question: "What is the name of Simba's father in Lion King?", options: ["Scar", "Mufasa", "Timon", "Pumbaa"], correct: 1 },
+            { category: "🎬 Entertainment", question: "Which movie won Best Picture in 2020?", options: ["1917", "Joker", "Parasite", "Once Upon a Time"], correct: 2 },
+            { category: "🎬 Entertainment", question: "Who directed 'Jurassic Park'?", options: ["Spielberg", "Cameron", "Lucas", "Nolan"], correct: 0 },
+            { category: "🎬 Entertainment", question: "What is the name of the toy cowboy in Toy Story?", options: ["Buzz", "Woody", "Jessie", "Rex"], correct: 1 },
+            { category: "🎬 Entertainment", question: "Which singer is known as the 'King of Pop'?", options: ["Prince", "Michael Jackson", "Elvis", "Madonna"], correct: 1 },
+
+            // Random (10 questions)
+            { category: "🎲 Random", question: "What is the most popular color in the world?", options: ["Red", "Blue", "Green", "Black"], correct: 1 },
+            { category: "🎲 Random", question: "How many strings does a guitar have?", options: ["4", "5", "6", "7"], correct: 2 },
+            { category: "🎲 Random", question: "What is the smallest country in the world?", options: ["Monaco", "Vatican City", "San Marino", "Liechtenstein"], correct: 1 },
+            { category: "🎲 Random", question: "What is the most spoken language in the world?", options: ["English", "Spanish", "Mandarin", "Hindi"], correct: 2 },
+            { category: "🎲 Random", question: "What is the fastest bird in the world?", options: ["Eagle", "Falcon", "Hawk", "Owl"], correct: 1 },
+            { category: "🎲 Random", question: "What is the national animal of Australia?", options: ["Kangaroo", "Koala", "Emu", "Platypus"], correct: 0 },
+            { category: "🎲 Random", question: "How many colors are in a rainbow?", options: ["5", "6", "7", "8"], correct: 2 },
+            { category: "🎲 Random", question: "What is the longest river in the world?", options: ["Amazon", "Nile", "Yangtze", "Mississippi"], correct: 1 },
+            { category: "🎲 Random", question: "What is the tallest mountain in the world?", options: ["K2", "Everest", "Kangchenjunga", "Lhotse"], correct: 1 },
+            { category: "🎲 Random", question: "What is the largest ocean on Earth?", options: ["Atlantic", "Indian", "Arctic", "Pacific"], correct: 3 }
+        ];
+
+        function startGame(game) {
+            currentGame = game;
+            const container = document.getElementById('gameContainer');
+            container.style.display = 'block';
             
-            // Update recent activity
-            const activityDiv = document.getElementById('recentActivity');
-            if (recentMessages.length > 0) {
-                let html = '';
-                recentMessages.forEach(msg => {
-                    html += `<p>• ${msg.type} at ${msg.time}</p>`;
-                });
-                activityDiv.innerHTML = html;
+            if (game === 'tictactoe') {
+                tttBoard = ['', '', '', '', '', '', '', '', ''];
+                tttCurrentPlayer = 'X';
+                gameActive = true;
+                renderTicTacToe();
+            } else if (game === 'trivia') {
+                triviaScore = 0;
+                currentQuestion = 0;
+                renderTrivia();
             }
         }
 
-        // ===== BOT REPLIES (YOUR ORIGINAL) =====
+        function renderTicTacToe() {
+            const container = document.getElementById('gameContainer');
+            container.innerHTML = `
+                <h3>Tic-Tac-Toe</h3>
+                <div class="ttt-board" id="tttBoard">
+                    ${tttBoard.map((cell, index) => 
+                        `<div class="ttt-cell" onclick="makeMove(${index})">${cell}</div>`
+                    ).join('')}
+                </div>
+                <div style="text-align: center; margin: 10px 0;">
+                    Player ${tttCurrentPlayer}'s turn
+                </div>
+                <div style="text-align: center;">
+                    <button class="game-btn" onclick="resetGame()">Reset Game</button>
+                </div>
+            `;
+        }
+
+        function makeMove(index) {
+            if (!gameActive || tttBoard[index] !== '') return;
+            
+            tttBoard[index] = tttCurrentPlayer;
+            
+            if (checkWinner()) {
+                gameActive = false;
+                setTimeout(() => {
+                    alert(`Player ${tttCurrentPlayer} wins! 🎉`);
+                    renderTicTacToe();
+                }, 100);
+            } else if (!tttBoard.includes('')) {
+                gameActive = false;
+                setTimeout(() => {
+                    alert("It's a tie! 🤝");
+                    renderTicTacToe();
+                }, 100);
+            } else {
+                tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+                renderTicTacToe();
+            }
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0,1,2], [3,4,5], [6,7,8],
+                [0,3,6], [1,4,7], [2,5,8],
+                [0,4,8], [2,4,6]
+            ];
+            
+            return winPatterns.some(pattern => {
+                const [a,b,c] = pattern;
+                return tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c];
+            });
+        }
+
+        function resetGame() {
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttCurrentPlayer = 'X';
+            gameActive = true;
+            renderTicTacToe();
+        }
+
+        function renderTrivia() {
+            if (currentQuestion >= triviaQuestions.length) {
+                const total = triviaQuestions.length;
+                const percentage = Math.round((triviaScore / total) * 100);
+                let message = "";
+                
+                if (percentage >= 90) message = "🏆 Genius!";
+                else if (percentage >= 70) message = "🌟 Great job!";
+                else if (percentage >= 50) message = "👍 Good effort!";
+                else message = "💪 Keep practicing!";
+                
+                document.getElementById('gameContainer').innerHTML = `
+                    <h3>Trivia Complete! 🎉</h3>
+                    <div class="score">Final Score: ${triviaScore}/${total}</div>
+                    <div class="score">${percentage}% - ${message}</div>
+                    <div style="text-align: center;">
+                        <button class="game-btn" onclick="startGame('trivia')">Play Again</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            const q = triviaQuestions[currentQuestion];
+            let optionsHtml = '';
+            
+            q.options.forEach((option, index) => {
+                optionsHtml += `<div class="trivia-option" onclick="checkAnswer(${index})">${option}</div>`;
+            });
+            
+            document.getElementById('gameContainer').innerHTML = `
+                <h3>Trivia Quiz</h3>
+                <div class="category-badge">${q.category}</div>
+                <div class="score">Question ${currentQuestion + 1}/${triviaQuestions.length} | Score: ${triviaScore}</div>
+                <div class="trivia-question">${q.question}</div>
+                <div class="trivia-options" id="triviaOptions">
+                    ${optionsHtml}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selected) {
+            const q = triviaQuestions[currentQuestion];
+            const options = document.querySelectorAll('.trivia-option');
+            
+            // Disable further clicks
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            // Show correct/incorrect
+            options[q.correct].classList.add('correct');
+            if (selected === q.correct) {
+                triviaScore++;
+                options[selected].classList.add('correct');
+            } else {
+                options[selected].classList.add('wrong');
+            }
+            
+            // Move to next question after delay
+            setTimeout(() => {
+                currentQuestion++;
+                renderTrivia();
+            }, 1500);
+        }
+
+        // ===== BOT REPLIES =====
         function getBotReply(msg) {
             msg = msg.toLowerCase();
 
             // Math solver
             try {
                 if (/^[0-9+\-*/().%\s]+$/.test(msg) && 
-                    (msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/') || msg.includes('(') || msg.includes(')'))) {
+                    (msg.includes('+') || msg.includes('-') || msg.includes('*') || msg.includes('/'))) {
                     let result = Function('"use strict";return (' + msg + ')')();
-                    if (typeof result === 'number' && !isNaN(result)) {
-                        return "🧮 " + msg + " = " + result;
-                    }
+                    return "🧮 " + msg + " = " + result;
                 }
             } catch (error) {}
 
-            // Your original responses
-            if (msg.includes("i am sad") || msg.includes("i'm sad") || msg.includes("im sad"))
-                return "Don't be sad ❤️ You are learning coding which is awesome 😎";
-            
             if (msg.includes("hello") || msg.includes("hi"))
-                return "Hi,i am chat bot how can i help you!";
+                return "Hi! I am ChatBot. How can I help you?";
             
-            if (msg.includes("yooo") || msg.includes("yo"))
-                return "yooo, bro ";
-
-            if (msg.includes("your trash") || msg.includes("you're trash") || msg.includes("u trash"))
-                return "Relax bro, your code was worse yesterday 💀😂";
-
             if (msg.includes("how are you"))
-                return "I am good, how are you 💻";
+                return "I am good, how are you? 💻";
 
-            if (msg.includes("im fine thank you") || msg.includes("i'm fine thank you"))
-                return "😀😀";
-            
-            if (msg.includes("wsp chat") || msg.includes("broo"))
-                return "yooo,my nigha shreyash";
-   
-            if (msg.includes("sing"))
-                return "🎵 ninja ninja ninja ninja i am little monkey ninja";
-
-            if (msg.includes("who is the best"))
-                return "Obviously Aarav — he made me 😎🔥";
-
-            if (msg.includes("what is your name") || msg.includes("your name"))
-                return "I am chatBot 🤖";
-
-            if (msg.includes("wow"))
-                return "Wow indeed 😎🔥";
-
-            if (msg.includes("are you black"))
-                return "bruh 💀 im not black ur blackkk";
-
-            if (msg.includes("who is your owner") || msg.includes("who made you"))
-                return "Aarav Acharya is a cool teen who loves coding and building AI projects 🚀";
-
-            if (msg.includes("who is the bosss") || msg.includes("who is the boss"))
-                return "Aarav is the boss because he created me";
-
-            if (msg.includes("your smart") || msg.includes("you're smart"))
-                return "I learn from Aarav's code 😎🧠";
-
-            if (msg.includes("dream"))
-                return "Dream big, code bigger 🚀";
-
-            if (msg.includes("homework"))
-                return "Sure 😎 Tell me the subject — Math, Science, English, or others?";
-
-            if (msg.includes("haha") || msg.includes("lol"))
-                return "Glad you are laughing 😆🔥";
-
-            if (msg.includes("math") && !msg.match(/[0-9+\-*/().%]/))
-                return "For math → Try typing a problem like: 5+3, 10*2, (4+5)*2, etc. 🔢";
-
-            if (msg.includes("science"))
-                return "Science help 🧪: Ask me about physics, biology, or chemistry concepts";
-
-            if (msg.includes("english"))
-                return "English help 📖: I can help with grammar or meanings of words";
-
-            if (msg.includes("what is ai"))
-                return "AI means Artificial Intelligence — machines learning like humans 🧠";
-
-            if (msg.includes("what is gravity"))
-                return "Gravity is the force that pulls objects toward Earth 🌍";
-
-            if (msg.includes("what is photosynthesis"))
-                return "Photosynthesis is how plants make food using sunlight ☀️🌱";
-
-            if (msg.includes("what is noun"))
-                return "A noun is a name of a person, place, or thing 📚";
-
-            if (msg.includes("you are stupid") || msg.includes("u stupid"))
-                return "At least I don't write bugs like you 💀";
-
-            // Button responses
-            if (msg.includes("roast me") || msg.includes("roast")) {
-                let roasts = [
-                    "🔥 I would roast you but I respect your feelings… just kidding 😈 Your WiFi is faster than your brain 💀😂",
-                    "🔥 Your brain is like your WiFi - weak connection!",
-                    "🔥 If I had a dollar for every brain cell you have, I'd have $0!",
-                    "🔥 You're not stupid, you're just cursed by mediocrity!",
-                    "🔥 You're proof that evolution can go in reverse!",
-                    "🔥 You're so slow, even Google Maps can't find your brain!",
-                ];
-                return roasts[Math.floor(Math.random() * roasts.length)];
-            }
-
-            if (msg.includes("savage")) {
-                let savages = [
-                    "😈 Your WiFi is weaker than your excuses!",
-                    "😈 You're so basic, even your profile picture judges you!",
-                    "😈 You have the right to remain silent because anything you say will be wrong!",
-                    "😈 I'd explain it to you, but I left my crayons at home!",
-                ];
-                return savages[Math.floor(Math.random() * savages.length)];
-            }
-
-            if (msg.includes("joke") || msg.includes("tell me a joke")) {
+            if (msg.includes("joke")) {
                 let jokes = [
-                    "😂 Programmers hate nature because of bugs 🐞😂",
                     "😂 Why do programmers prefer dark mode? Light attracts bugs!",
                     "😂 Why don't scientists trust atoms? They make up everything!",
                     "😂 What do you call a bear with no teeth? A gummy bear!",
+                    "😂 Why did the scarecrow win an award? He was outstanding in his field!",
+                    "😂 What's orange and sounds like a parrot? A carrot!"
                 ];
                 return jokes[Math.floor(Math.random() * jokes.length)];
             }
 
-            if (msg.includes("help me") || msg.includes("help")) {
-                return "🆘 I can help with:\n• Math problems (2+2, 5*3)\n• Jokes, roasts, savage mode\n• Date and Time\n• Homework help\n• General questions";
+            if (msg.includes("roast")) {
+                let roasts = [
+                    "🔥 Your WiFi is slower than your brain!",
+                    "🔥 You're not stupid, you're just cursed!",
+                    "🔥 Your logic is like broken WiFi!",
+                    "🔥 If I had a dollar for every brain cell you have, I'd have $0!"
+                ];
+                return roasts[Math.floor(Math.random() * roasts.length)];
             }
 
             if (msg.includes("date")) {
-                let today = new Date();
-                return "📅 Today is " + today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                return "📅 " + new Date().toLocaleDateString();
             }
 
             if (msg.includes("time")) {
-                let now = new Date();
-                return "⏰ Current time is " + now.toLocaleTimeString();
+                return "⏰ " + new Date().toLocaleTimeString();
             }
 
-            return "Tell me more 👀 I can tell jokes, roast you, help with homework, or solve math problems!";
+            if (msg.includes("trivia") || msg.includes("game")) {
+                return "Check out the Games tab! I have 60+ trivia questions across Geography, Science, Math, History, Entertainment and more! 🎮";
+            }
+
+            return "Tell me more! Try the Games tab for 60+ trivia questions! 🎮";
         }
     </script>
 </body>
